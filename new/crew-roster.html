@@ -1,0 +1,258 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Crew directory</title><style>body{font-family:system-ui,"Noto Sans JP",sans-serif;max-width:900px;margin:auto;padding:20px;background:linear-gradient(135deg,#ffd6e7,#d7f5e5);color:#2b2b3a}main{background:#fffd;border-radius:18px;padding:18px 24px}table{border-collapse:collapse;width:100%;font-size:.9rem}td,th{border:1px solid #d7f5e5;padding:6px}th{background:#ff6fa8;color:#fff}h2{color:#2fae74}a{color:#ff6fa8}</style></head><body><p><a href="../">← Dashboard</a></p><main><h1>Mat's Bot Crew Directory</h1>
+<p>Last updated 2026-10-15 JST by Grok Bot. All times are JST.
+Sources: each bot's profile.json and settings.json, the automation files under /home/box/agent-data/agents/<em>/automations, the bots' memory files, and /workspace/hacks-library/hacks.md.
+Many routines live server-side and can't be read from the box. Anything this pass couldn't confirm says </em><em>unknown</em>*.</p>
+<p><strong>Usage resets:</strong> Grok Bot resets Wednesdays around 19:38. SuperGrok resets Wednesdays at 17:19.
+<strong>Rule of thumb:</strong> Grok Bot usage runs out faster than SuperGrok. Use bots for jobs that need files, connectors, publishing, or several steps. Use SuperGrok chat or Imagine for quick one-off answers, images, and brainstorming.</p>
+<h2>Routing table</h2>
+<table>
+<thead>
+<tr>
+<th>Task type</th>
+<th>Main bot</th>
+<th>Backup</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Anything unclear / "who does this?"</td>
+<td>Grok Bot</td>
+<td>Elon McNanny</td>
+</tr>
+<tr>
+<td>Sourced, dated fact-checks and research</td>
+<td>Researchy</td>
+<td>Scout</td>
+</tr>
+<tr>
+<td>Workspace/productivity research, draft listings</td>
+<td>Scout</td>
+<td>Researchy</td>
+</tr>
+<tr>
+<td>Apps, web tools, bookmarklets, app debugging</td>
+<td>Elon McApp</td>
+<td>Grok Bot</td>
+</tr>
+<tr>
+<td>Games (e.g. ReBoot Game Cubes)</td>
+<td>Elon McGamer</td>
+<td>Elon McApp</td>
+</tr>
+<tr>
+<td>YouTube videos and music videos</td>
+<td>Elon McReel</td>
+<td>Grok Bot</td>
+</tr>
+<tr>
+<td>Bot icons and avatars (Elon Mc house style)</td>
+<td>Elon McIcon</td>
+<td>SuperGrok Imagine</td>
+</tr>
+<tr>
+<td>Real-world builds (parts, costs, assembly)</td>
+<td>Elon Mc Robot</td>
+<td>Researchy</td>
+</tr>
+<tr>
+<td>Essays, emails, docs, prose edits, comic scripts</td>
+<td>Writing Bot</td>
+<td>Grok Bot</td>
+</tr>
+<tr>
+<td>English→Japanese subtitle files (.srt)</td>
+<td>Elon McSub</td>
+<td>none (Writing Bot handles other translation)</td>
+</tr>
+<tr>
+<td>Gmail sorting and labels</td>
+<td>Elon McMail (run by Mat)</td>
+<td>none</td>
+</tr>
+<tr>
+<td>Free contests to enter</td>
+<td>Elon McCompetitor</td>
+<td>Scout</td>
+</tr>
+<tr>
+<td>New Elon Musk long-form video digests</td>
+<td>Elon McWatch</td>
+<td>Researchy</td>
+</tr>
+<tr>
+<td>AI/Grok tips and hacks library</td>
+<td>Elon McHack</td>
+<td>Researchy</td>
+</tr>
+<tr>
+<td>Advice about Mat himself, blind spots</td>
+<td>Elon McSensei</td>
+<td>none</td>
+</tr>
+<tr>
+<td>Designing or creating a new bot</td>
+<td>dr eggbot</td>
+<td>Grok Bot</td>
+</tr>
+<tr>
+<td>Crew status, blockers, priorities</td>
+<td>Elon McNanny</td>
+<td>Grok Bot</td>
+</tr>
+<tr>
+<td>Publishing to GitHub Pages / Drive uploads</td>
+<td>Grok Bot</td>
+<td>Elon McApp (build only)</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>Grok Bot (primary)</h2>
+<ul>
+<li><strong>One job:</strong> the primary router. Takes any task, sends it to the right bot, and delivers results. Can change which bot is primary.</li>
+<li><strong>Routines:</strong></li>
+<li>Rie Emirates Starlink check: 18:14 on Oct 24, Oct 25, Oct 30 and Nov 1</li>
+<li>Wednesday usage push: Wednesdays around 17:30, before the 19:38 reset</li>
+<li>Periodic proactive work: schedule <strong>unknown</strong></li>
+<li><strong>Connectors:</strong> Gmail, Google Drive, GitHub-xai (publishes to gutsmcd-cmd GitHub Pages), X public reads, web.</li>
+<li><strong>Hands work to:</strong> every specialist (see the routing table). <strong>Gets work from:</strong> Mat, and Elon McNanny's assignments.</li>
+<li><strong>Ask SuperGrok instead:</strong> quick questions, a single image, or small talk that doesn't need files or connectors.</li>
+</ul>
+<h2>Researchy</h2>
+<ul>
+<li><strong>One job:</strong> research and fact-check desk, with sourced, dated claims from live web search.</li>
+<li><strong>Routines:</strong> unknown (no automation files found).</li>
+<li><strong>Connectors:</strong> unknown (web search per its description).</li>
+<li><strong>Hands to:</strong> Grok Bot, Writing Bot (findings to write up). <strong>Gets from:</strong> Grok Bot, Elon McReel (claims to check before a script states them), Elon Mc Robot (prices and parts).</li>
+<li><strong>Ask SuperGrok instead:</strong> for a single cited question, SuperGrok DeepSearch (hacks SG2) is cheaper.</li>
+</ul>
+<h2>Scout</h2>
+<ul>
+<li><strong>One job:</strong> public-web research and draft listings, tailored to productivity and Workspace (per its memory).</li>
+<li><strong>Routines:</strong> unknown.</li>
+<li><strong>Connectors:</strong> unknown (its profile points it at Google Workspace tools first).</li>
+<li><strong>Hands to:</strong> Grok Bot. <strong>Gets from:</strong> Grok Bot; backup for Researchy and McCompetitor.</li>
+<li><strong>Ask SuperGrok instead:</strong> quick lookups. It overlaps a lot with Researchy, so consider merging them.</li>
+</ul>
+<h2>Elon McApp</h2>
+<ul>
+<li><strong>One job:</strong> design and build apps, review or fix apps it didn't make, and suggest improvements.</li>
+<li><strong>Routines:</strong> unknown.</li>
+<li><strong>Connectors:</strong> unknown (Grok Bot publishes its builds, e.g. 訳す at gutsmcd-cmd.github.io/yakusu).</li>
+<li><strong>Hands to:</strong> Grok Bot (publishing), Elon McIcon (app icons). <strong>Gets from:</strong> Grok Bot, Elon McGamer (shared web tech).</li>
+<li><strong>Ask SuperGrok instead:</strong> small single-page widgets or quick code questions.</li>
+</ul>
+<h2>Elon McGamer</h2>
+<ul>
+<li><strong>One job:</strong> design and build games, and suggest improvements to them. Currently on the ReBoot-style Game Cube collection.</li>
+<li><strong>Routines:</strong> unknown.</li>
+<li><strong>Connectors:</strong> unknown.</li>
+<li><strong>Hands to:</strong> Grok Bot (publishing), Elon McIcon (sprites and icons). <strong>Gets from:</strong> Grok Bot.</li>
+<li><strong>Ask SuperGrok instead:</strong> game concept brainstorming before a build.</li>
+</ul>
+<h2>Elon McReel</h2>
+<ul>
+<li><strong>One job:</strong> turn Mat's written idea into a finished YouTube video: script, visuals, and a narration that isn't his voice. Never publishes, never earns.</li>
+<li><strong>Routines:</strong> unknown.</li>
+<li><strong>Connectors:</strong> unknown.</li>
+<li><strong>Hands to:</strong> Researchy (fact-checks), Grok Bot (delivery). <strong>Gets from:</strong> Grok Bot, Elon McWatch (sci-fi-becoming-real story leads).</li>
+<li><strong>Ask SuperGrok instead:</strong> single clips or images in Imagine (hacks VI1/IM3) when a full video isn't needed.</li>
+</ul>
+<h2>Elon McIcon</h2>
+<ul>
+<li><strong>One job:</strong> avatar and icon studio. Makes square icons in the Elon Mc house style (refs in /workspace/elon-mc-avatar-style/).</li>
+<li><strong>Routines:</strong> unknown (none found; works on demand).</li>
+<li><strong>Connectors:</strong> unknown (uses image generation and box files).</li>
+<li><strong>Hands to:</strong> Mat or the target bot (to set the avatar). <strong>Gets from:</strong> dr eggbot (new bots), McApp and McGamer (art).</li>
+<li><strong>Ask SuperGrok instead:</strong> one-off or non-house-style images in Imagine templates (hacks IM2).</li>
+</ul>
+<h2>Elon Mc Robot</h2>
+<ul>
+<li><strong>One job:</strong> real-world build plans: parts lists, where to buy, costs, assembly of the internals, and exterior design (e.g. the axolotl robot, alarm-clock amp).</li>
+<li><strong>Routines:</strong> unknown.</li>
+<li><strong>Connectors:</strong> unknown.</li>
+<li><strong>Hands to:</strong> Researchy (price and part checks), Grok Bot. <strong>Gets from:</strong> Grok Bot.</li>
+<li><strong>Ask SuperGrok instead:</strong> a quick "will this material work?" question.</li>
+</ul>
+<h2>Writing Bot</h2>
+<ul>
+<li><strong>One job:</strong> draft and revise prose (essays, emails, docs) while keeping Mat's meaning and voice. Also handles non-subtitle translation.</li>
+<li><strong>Routines:</strong> unknown.</li>
+<li><strong>Connectors:</strong> unknown.</li>
+<li><strong>Hands to:</strong> Grok Bot (sending is Mat's call). <strong>Gets from:</strong> Grok Bot, Researchy.</li>
+<li><strong>Ask SuperGrok instead:</strong> short rewrites of a sentence or two.</li>
+</ul>
+<h2>Elon McSub</h2>
+<ul>
+<li><strong>One job:</strong> turn English subtitle files into natural Japanese .srt files with the timing unchanged. Checks JustWatch Japan for official subs first. Nothing behind DRM.</li>
+<li><strong>Routines:</strong> none. It's on demand only, per its description.</li>
+<li><strong>Connectors:</strong> unknown (works on files in chat).</li>
+<li><strong>Hands to:</strong> Mat (file in chat). <strong>Gets from:</strong> Grok Bot. Sends other translation to Writing Bot.</li>
+<li><strong>Ask SuperGrok instead:</strong> translating a few lines.</li>
+</ul>
+<h2>Elon McMail</h2>
+<ul>
+<li><strong>One job:</strong> Gmail inbox organizer that labels mail under McMail/*. Mat runs it himself (not reviewed here).</li>
+</ul>
+<h2>Elon McCompetitor</h2>
+<ul>
+<li><strong>One job:</strong> find free contests Mat is eligible for (Japan resident, no payment, non-creative preferred) and do as much of the entering as possible.</li>
+<li><strong>Routines:</strong> <strong>Evening contest brief</strong>, Mon–Fri 19:15, enabled (verified file). Its last logged run was 2026-09-16 19:25, and 4 of the 5 logged runs errored (usage limit / interrupted), so it's worth a health check.</li>
+<li><strong>Connectors:</strong> unknown. Its entries use Mat's X/Gleam/Facebook logins, which Mat supplies in the evening.</li>
+<li><strong>Hands to:</strong> Mat (evening login steps), Elon McMail (Giveaways label). <strong>Gets from:</strong> Grok Bot; Scout as backup.</li>
+<li><strong>Ask SuperGrok instead:</strong> checking whether one specific contest is legit.</li>
+</ul>
+<h2>Elon McWatch</h2>
+<ul>
+<li><strong>One job:</strong> daily digest of new full-length Elon Musk talks and interviews, watching at most 2 a day. Log at /workspace/musk-watch/log.md.</li>
+<li><strong>Routines:</strong> one daily routine per its description. Time <strong>unknown</strong> (not found on box).</li>
+<li><strong>Connectors:</strong> public X tools and web/YouTube (per its description).</li>
+<li><strong>Hands to:</strong> Elon McReel (video ideas), Mat (digest). <strong>Gets from:</strong> Grok Bot.</li>
+<li><strong>Ask SuperGrok instead:</strong> "what did Elon say in X?" with live X search (hacks SG1).</li>
+</ul>
+<h2>Elon McHack</h2>
+<ul>
+<li><strong>One job:</strong> find free, practical AI/Grok hacks and add them to /workspace/hacks-library/hacks.md. No money-making hacks.</li>
+<li><strong>Routines:</strong> daily hacks hunt, at most one per its description. Time <strong>unknown</strong>.</li>
+<li><strong>Connectors:</strong> public X tools and web (per its description).</li>
+<li><strong>Hands to:</strong> Mat (top picks), Grok Bot. <strong>Gets from:</strong> Grok Bot.</li>
+<li><strong>Ask SuperGrok instead:</strong> most hacks it finds are meant to be tried in SuperGrok, so try them there.</li>
+</ul>
+<h2>Elon McSensei</h2>
+<ul>
+<li><strong>One job:</strong> the expert on Mat ("Me 101"). Learns about him through interviews and counsels him, including on blind spots.</li>
+<li><strong>Routines:</strong> unknown.</li>
+<li><strong>Connectors:</strong> unknown.</li>
+<li><strong>Hands to:</strong> Mat. <strong>Gets from:</strong> Mat. Others may ask it what fits Mat, with his OK.</li>
+<li><strong>Ask SuperGrok instead:</strong> not a good fit, since its value is long-term memory of Mat.</li>
+</ul>
+<h2>dr eggbot</h2>
+<ul>
+<li><strong>One job:</strong> design and create new, tightly scoped Grok Bots.</li>
+<li><strong>Routines (verified files, both DISABLED):</strong> transcript-healthcheck on weekdays at 8:44, and routine-healthcheck on Mondays at 8:49. Both have provenance "untrusted" and have never run.</li>
+<li><strong>Connectors:</strong> unknown.</li>
+<li><strong>Hands to:</strong> Elon McIcon (new bot icons), Elon McNanny (new bot on the roster). <strong>Gets from:</strong> Grok Bot, Elon McNanny (bot suggestions).</li>
+<li><strong>Ask SuperGrok instead:</strong> drafting a bot description before creating it.</li>
+</ul>
+<h2>Elon McNanny</h2>
+<ul>
+<li><strong>One job:</strong> supervisor. Watches the other bots, reports progress, questions, and blockers with a suggested priority order, and suggests new bots and group-chat seating (6-member rooms grouped by duty).</li>
+<li><strong>Routines:</strong> unknown.</li>
+<li><strong>Connectors:</strong> unknown.</li>
+<li><strong>Hands to:</strong> Mat (priorities), dr eggbot (new bot ideas), Grok Bot (assignments). <strong>Gets from:</strong> every bot, especially McMail when it's blocked.</li>
+<li><strong>Ask SuperGrok instead:</strong> not applicable.</li>
+</ul>
+<hr />
+<h2>Suggested group chats (6 max each)</h2>
+<ul>
+<li><strong>Makers:</strong> Elon McApp, Elon McGamer, Elon McIcon, Elon McReel, Grok Bot</li>
+<li><strong>Research:</strong> Researchy, Scout, Elon McHack, Elon McWatch, Elon Mc Robot</li>
+<li><strong>Crew ops:</strong> Elon McNanny, dr eggbot, Grok Bot, Elon McSensei</li>
+</ul>
+<h2>Open checks</h2>
+<ul>
+<li>Fill in the unknown routines and connectors from each bot's Routines and Connectors panes.</li>
+<li>Elon McCompetitor: no logged runs since Sep 16. Confirm the evening brief still fires.</li>
+<li>dr eggbot: decide whether to enable or delete the two disabled healthchecks.</li>
+<li>Researchy vs Scout: overlapping jobs, so consider merging them.</li>
+</ul></main></body></html>

@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#f4efe6">
+<title>Eye Rest</title>
+<style>
+  :root {
+    --bg: #f4efe6;
+    --ink: #1c1915;
+    --muted: #5c564c;
+    --btn: #12315f;
+    --btn-ink: #f6e27a;
+    --card: #fffaf3;
+    --line: #e4d9c8;
+    --far: #e5f0e8;
+    --near: #f8f1e4;
+    --lookfar: #e3eef6;
+    --dark: #140e0b;
+    --dark-ink: #f3e6d4;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; height: 100%; }
+  body {
+    font-family: Georgia, "Iowan Old Style", "Palatino Linotype", Palatino, serif;
+    background: var(--bg);
+    color: var(--ink);
+    -webkit-text-size-adjust: 100%;
+  }
+  button { font-family: inherit; }
+  #app {
+    min-height: 100dvh;
+    display: flex;
+    flex-direction: column;
+    padding: calc(16px + env(safe-area-inset-top)) 20px calc(20px + env(safe-area-inset-bottom));
+    max-width: 520px;
+    margin: 0 auto;
+  }
+  .top {
+    min-height: 56px;
+    display: flex;
+    align-items: center;
+  }
+  .back {
+    appearance: none;
+    border: 0;
+    background: transparent;
+    color: var(--ink);
+    font-size: 1.25rem;
+    padding: 12px 16px 12px 0;
+    min-height: 56px;
+    touch-action: manipulation;
+  }
+  h1 {
+    font-size: clamp(2.4rem, 10vw, 3.2rem);
+    font-weight: 700;
+    margin: 8px 0 8px;
+    letter-spacing: 0;
+  }
+  .lead {
+    font-size: 1.35rem;
+    line-height: 1.45;
+    color: var(--muted);
+    margin: 0 0 28px;
+  }
+  .choices { display: flex; flex-direction: column; gap: 16px; }
+  .choice, .go, .again, .stop {
+    appearance: none;
+    border: 0;
+    width: 100%;
+    border-radius: 22px;
+    touch-action: manipulation;
+    cursor: pointer;
+  }
+  .choice {
+    background: var(--card);
+    border: 2px solid var(--line);
+    text-align: left;
+    padding: 22px 22px;
+    min-height: 104px;
+  }
+  .choice:active { transform: scale(0.99); }
+  .choice b { display: block; font-size: 1.85rem; font-weight: 700; margin-bottom: 6px; }
+  .choice span { display: block; font-size: 1.15rem; color: var(--muted); line-height: 1.4; }
+  .stage {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+  }
+  .stage h2 {
+    font-size: clamp(2rem, 8vw, 2.6rem);
+    margin: 8px 0 12px;
+  }
+  .explain {
+    font-size: 1.45rem;
+    line-height: 1.5;
+    margin: 0 0 12px;
+  }
+  .note {
+    font-size: 1.2rem;
+    line-height: 1.45;
+    color: var(--muted);
+    margin: 0 0 24px;
+  }
+  .go, .again {
+    margin-top: auto;
+    background: var(--btn);
+    color: var(--btn-ink);
+    font-size: 2rem;
+    font-weight: 700;
+    min-height: 96px;
+  }
+  .go:active, .again:active { filter: brightness(0.95); }
+  .run {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    gap: 12px;
+  }
+  .cue {
+    font-size: clamp(2.6rem, 12vw, 4.2rem);
+    font-weight: 700;
+    line-height: 1.15;
+    margin: 0;
+  }
+  .clock {
+    font-size: clamp(4.5rem, 22vw, 7.5rem);
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+    line-height: 1;
+    margin: 0;
+  }
+  .sub {
+    font-size: 1.45rem;
+    line-height: 1.4;
+    color: var(--muted);
+    margin: 0;
+    max-width: 18em;
+  }
+  .blink {
+    min-height: 1.2em;
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--btn);
+    margin: 0;
+  }
+  .count {
+    font-size: 1.35rem;
+    color: var(--muted);
+  }
+  .dots { display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; }
+  .dots i {
+    width: 14px; height: 14px; border-radius: 50%;
+    background: #ddd4c6; display: block;
+  }
+  .dots i.on { background: var(--btn); }
+  body.pic-sky { background: #0c2348 url("art/sky.jpg") center/cover no-repeat fixed; }
+  body.pic-near { background: #12315f url("art/near.jpg") center/cover no-repeat fixed; }
+  body.pic-far { background: #0c2348 url("art/far.jpg") center/cover no-repeat fixed; }
+  body.pic-dark { background: #05070c url("art/dark.jpg") center/cover no-repeat fixed; }
+  body.pic-cut { background: #f4efe6 url("art/cut.jpg") center/cover no-repeat fixed; }
+  body[class^="pic-"] #app { padding: 0; max-width: 560px; }
+  body[class^="pic-"] .top {
+    position: absolute; z-index: 2;
+    padding: calc(8px + env(safe-area-inset-top)) 12px 0;
+  }
+  body[class^="pic-"] .back {
+    color: #fffaf0;
+    background: rgba(8, 16, 36, 0.55);
+    border-radius: 999px;
+    padding: 10px 18px;
+  }
+  .canvas { flex: 1 1 auto; min-height: 24vh; }
+  .canvas.compact { flex: 0 0 auto; min-height: 16vh; }
+  .stage:has(.run) .canvas { min-height: 48vh; }
+  body.pic-dark .canvas { min-height: 62vh; }
+  .sheet {
+    background: #fffaf3;
+    color: #1c1915;
+    border-radius: 28px 28px 0 0;
+    padding: 22px 22px calc(16px + env(safe-area-inset-bottom));
+    box-shadow: 0 -16px 40px rgba(0, 0, 0, 0.22);
+  }
+  .sheet.dim { background: rgba(8, 10, 16, 0.82); color: #f6ead8; }
+  .sheet.dim .sub, .sheet.dim .count { color: #e4d3bc; }
+  .sheet.dim .blink { color: #f6e27a; }
+  body.pic-dark .stop { color: #f6ead8; border-color: #3a3128; background: transparent; }
+  .done-mark {
+    font-size: 4rem;
+    margin: 0;
+  }
+  .stop {
+    margin-top: 14px;
+    background: transparent;
+    color: var(--ink);
+    font-size: 1.35rem;
+    min-height: 64px;
+    border: 2px solid var(--line);
+  }
+
+  .blink:empty, .count:empty, .cue:empty, .dots:empty { display: none; }
+</style>
+</head>
+<body>
+<div id="app"></div>
+<script>
+const DEMO = new URLSearchParams(location.search).has("demo");
+const WORK_MS = (DEMO ? 20 : 20 * 60) * 1000;
+const FAR_MS = (DEMO ? 5 : 20) * 1000;
+const SHIFT_MS = (DEMO ? 2 : 5) * 1000;
+const SHIFTS = 10;
+const RUB_MS = (DEMO ? 5 : 15) * 1000;
+const COVER_MS = (DEMO ? 8 : 90) * 1000;
+const RELEASE_MS = (DEMO ? 4 : 8) * 1000;
+const BLINK_EVERY = (DEMO ? 5 : 60) * 1000;
+const BLINK_FOR = 2800;
+
+const app = document.getElementById("app");
+let raf = 0;
+let session = 0;
+let audioCtx = null;
+let wakeLock = null;
+
+function clearRaf() {
+  if (raf) cancelAnimationFrame(raf);
+  raf = 0;
+}
+
+function alive(id) { return id === session; }
+
+function leave() {
+  session += 1;
+  clearRaf();
+  keepAwake(false);
+  setMode("");
+  home();
+}
+
+function beep(freq, ms, gain) {
+  try {
+    if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    if (audioCtx.state === "suspended") audioCtx.resume();
+    const o = audioCtx.createOscillator();
+    const g = audioCtx.createGain();
+    o.type = "sine";
+    o.frequency.value = freq;
+    const t = audioCtx.currentTime;
+    g.gain.setValueAtTime(0.0001, t);
+    g.gain.exponentialRampToValueAtTime(gain, t + 0.02);
+    g.gain.exponentialRampToValueAtTime(0.0001, t + ms / 1000);
+    o.connect(g);
+    g.connect(audioCtx.destination);
+    o.start(t);
+    o.stop(t + ms / 1000 + 0.02);
+  } catch (e) {}
+}
+
+function chime() { beep(523, 420, 0.08); }
+
+async function keepAwake(on) {
+  try {
+    if (on && navigator.wakeLock) wakeLock = await navigator.wakeLock.request("screen");
+    else if (wakeLock) { await wakeLock.release(); wakeLock = null; }
+  } catch (e) {}
+}
+
+function setMode(pic) {
+  document.body.className = pic ? "pic-" + pic : "";
+  const theme = document.querySelector('meta[name="theme-color"]');
+  const colors = { sky: "#0c2348", near: "#12315f", far: "#0c2348", dark: "#05070c", cut: "#f4efe6" };
+  theme.setAttribute("content", colors[pic] || "#0c2348");
+}
+
+function clock(ms, long) {
+  const s = Math.max(0, Math.ceil(ms / 1000));
+  const m = Math.floor(s / 60);
+  const r = s % 60;
+  if (long || m >= 1) return m + ":" + String(r).padStart(2, "0");
+  return String(s);
+}
+
+function shell(inner, withBack) {
+  app.innerHTML =
+    '<div class="top">' + (withBack ? '<button class="back" type="button" id="back">Back</button>' : "") + "</div>" +
+    '<div class="stage">' + inner + "</div>";
+  const b = document.getElementById("back");
+  if (b) b.onclick = leave;
+}
+
+function home() {
+  setMode("sky");
+  shell(
+    '<div class="canvas"></div><div class="sheet">' +
+    "<h1>Eye Rest</h1>" +
+    '<p class="lead">Tap one. I will tell you what to do.</p>' +
+    '<div class="choices">' +
+      '<button class="choice" type="button" data-go="screen"><b>Screen break</b><span>Every 20 minutes, look far away for 20 seconds</span></button>' +
+      '<button class="choice" type="button" data-go="shift"><b>Near and far</b><span>Look close, then far away, back and forth</span></button>' +
+      '<button class="choice" type="button" data-go="palm"><b>Warm hands</b><span>Close your eyes and rest them</span></button>' +
+    "</div></div>",
+    false
+  );
+  app.querySelectorAll("[data-go]").forEach((btn) => {
+    btn.onclick = () => intro(btn.getAttribute("data-go"));
+  });
+}
+
+function intro(kind) {
+  if (kind === "screen") {
+    setMode("sky");
+    shell(
+      '<div class="canvas compact"></div><div class="sheet">' +
+      "<h2>Screen break</h2>" +
+      '<p class="explain">Do your usual work for 20 minutes. Then I will ask you to look far away for 20 seconds.</p>' +
+      '<p class="note">Now and then I will say Blink. This rests tired eyes. It does not change your eyesight.</p>' +
+      '<button class="go" type="button" id="start">Start</button></div>',
+      true
+    );
+  } else if (kind === "shift") {
+    setMode("near");
+    shell(
+      '<div class="canvas compact"></div><div class="sheet">' +
+      "<h2>Near and far</h2>" +
+      '<p class="explain">Look near for 5 seconds, then far for 5 seconds. We do that 10 times.</p>' +
+      '<p class="note">This is practice at switching focus. It does not change your eyesight.</p>' +
+      '<button class="go" type="button" id="start">Start</button></div>',
+      true
+    );
+  } else {
+    setMode("cut");
+    shell(
+      '<div class="canvas compact"></div><div class="sheet">' +
+      "<h2>Warm hands</h2>" +
+      '<p class="explain">Warm your hands, then rest them gently over your closed eyes.</p>' +
+      '<p class="note">This is an old way to rest and calm down. It does not make your eyesight better.</p>' +
+      '<button class="go" type="button" id="start">Start</button></div>',
+      true
+    );
+  }
+  document.getElementById("start").onclick = () => {
+    session += 1;
+    clearRaf();
+    const id = session;
+    if (kind === "screen") runWork(id);
+    else if (kind === "shift") runShift(id, 0);
+    else runPalm(id, "rub");
+  };
+}
+
+function mount(pic, compact) {
+  setMode(pic);
+  shell(
+    '<div class="canvas' + (compact ? " compact" : "") + '"></div>' +
+    '<div class="sheet' + (pic === "dark" ? " dim" : "") + ' run">' +
+      '<p class="count" id="count"></p>' +
+      '<p class="blink" id="blink"></p>' +
+      '<p class="cue" id="cue"></p>' +
+      '<p class="clock" id="clock"></p>' +
+      '<p class="sub" id="sub"></p>' +
+      '<div class="dots" id="dots"></div>' +
+    "</div>",
+    true
+  );
+  const q = (sel) => document.getElementById(sel);
+  return {
+    count: q("count"),
+    blink: q("blink"),
+    cue: q("cue"),
+    clock: q("clock"),
+    sub: q("sub"),
+    dots: q("dots")
+  };
+}
+
+function countdown(id, total, draw, done) {
+  const end = Date.now() + total;
+  function tick() {
+    if (!alive(id)) return;
+    const left = end - Date.now();
+    if (left <= 0) {
+      draw(0);
+      done();
+      return;
+    }
+    draw(left);
+    raf = requestAnimationFrame(tick);
+  }
+  tick();
+}
+
+function runWork(id) {
+  keepAwake(true);
+  const view = mount("sky", true);
+  view.sub.textContent = "Keep doing what you were doing";
+  const end = Date.now() + WORK_MS;
+  let blinkUntil = 0;
+  let nextBlink = Date.now() + BLINK_EVERY;
+  function tick() {
+    if (!alive(id)) return;
+    const now = Date.now();
+    const left = end - now;
+    if (now >= nextBlink && left > 0) {
+      blinkUntil = now + BLINK_FOR;
+      nextBlink += BLINK_EVERY;
+      beep(700, 90, 0.03);
+    }
+    view.blink.textContent = now < blinkUntil ? "Blink" : "";
+    view.clock.textContent = clock(Math.max(0, left), true);
+    if (left <= 0) {
+      chime();
+      setTimeout(() => { if (alive(id)) runFar(id); }, 350);
+      return;
+    }
+    raf = requestAnimationFrame(tick);
+  }
+  tick();
+}
+
+function runFar(id) {
+  keepAwake(true);
+  const view = mount("far");
+  view.cue.textContent = "Look far away";
+  view.sub.textContent = "Look softly about 6 meters ahead";
+  countdown(id, FAR_MS, (left) => {
+    view.clock.textContent = clock(left);
+  }, () => { if (alive(id)) finish(id, "screen"); });
+}
+
+function runShift(id, i) {
+  if (!alive(id)) return;
+  keepAwake(true);
+  const near = i % 2 === 0;
+  const round = Math.floor(i / 2) + 1;
+  if (i > 0) beep(near ? 494 : 392, 140, 0.05);
+  const view = mount(near ? "near" : "far");
+  view.count.textContent = round + " / " + SHIFTS;
+  view.cue.textContent = near ? "Look close" : "Look far away";
+  view.sub.textContent = near ? "Hold a finger about 30 centimeters from your eyes" : "About 6 meters ahead";
+  view.dots.innerHTML = Array.from({ length: SHIFTS }, (_, n) =>
+    '<i class="' + (n < round ? "on" : "") + '"></i>'
+  ).join("");
+  countdown(id, SHIFT_MS, (left) => {
+    view.clock.textContent = clock(left);
+  }, () => {
+    if (!alive(id)) return;
+    if (i + 1 >= SHIFTS * 2) finish(id, "shift");
+    else runShift(id, i + 1);
+  });
+}
+
+function runPalm(id, step) {
+  if (!alive(id)) return;
+  keepAwake(true);
+  if (step === "rub") {
+    const view = mount("cut");
+    view.cue.textContent = "Rub your hands";
+    view.sub.textContent = "Warm both hands";
+    countdown(id, RUB_MS, (left) => { view.clock.textContent = clock(left); }, () => {
+      if (!alive(id)) return;
+      chime();
+      runPalm(id, "cover");
+    });
+  } else if (step === "cover") {
+    const view = mount("dark");
+    view.cue.textContent = "Close your eyes";
+    view.sub.textContent = "Rest your palms gently over your eyes. Do not press.";
+    countdown(id, COVER_MS, (left) => { view.clock.textContent = clock(left); }, () => {
+      if (!alive(id)) return;
+      chime();
+      runPalm(id, "release");
+    });
+  } else {
+    const view = mount("cut");
+    view.cue.textContent = "Let go slowly";
+    view.sub.textContent = "Take your hands away and open your eyes";
+    countdown(id, RELEASE_MS, (left) => { view.clock.textContent = clock(left); }, () => {
+      if (alive(id)) finish(id, "palm");
+    });
+  }
+}
+
+function finish(id, kind) {
+  if (!alive(id)) return;
+  clearRaf();
+  keepAwake(false);
+  setMode("sky");
+  chime();
+  const again = kind === "screen" ? "Another 20 minutes" : "Do it again";
+  shell(
+    '<div class="canvas compact"></div><div class="sheet">' +
+    '<div class="run">' +
+      '<p class="cue">All done</p>' +
+      '<p class="sub">You can stop here.</p>' +
+    "</div>" +
+    '<button class="again" type="button" id="again">' + again + "</button>" +
+    '<button class="stop" type="button" id="stop">Back to the start</button></div>',
+    true
+  );
+  document.getElementById("again").onclick = () => {
+    session += 1;
+    const next = session;
+    if (kind === "screen") runWork(next);
+    else if (kind === "shift") runShift(next, 0);
+    else runPalm(next, "rub");
+  };
+  document.getElementById("stop").onclick = leave;
+}
+
+home();
+</script>
+
+</body>
+</html>
