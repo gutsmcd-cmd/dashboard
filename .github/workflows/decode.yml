@@ -2,7 +2,6 @@ name: decode-site
 on:
   push:
     branches: [main]
-    paths: ['b64/done']
   workflow_dispatch:
 permissions:
   contents: write
@@ -11,10 +10,17 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
       - name: Rebuild site from base64 parts
         run: |
           set -e
-          if [ ! -f b64/done ]; then echo "waiting for all parts"; exit 0; fi
+          if [ ! -f b64/done ]; then
+            if [ -d b64 ]; then echo "waiting for all parts"; exit 0; fi
+            echo "no upload pending: mirror main to gh-pages"
+            if git ls-remote --exit-code --heads origin gh-pages >/dev/null; then git push --force origin HEAD:gh-pages; fi
+            exit 0
+          fi
           cat b64/site.part* | base64 -d > /tmp/site.tar
           echo "$(cat b64/sha256)  /tmp/site.tar" | sha256sum -c -
           tar -xf /tmp/site.tar
