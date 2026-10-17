@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Cube Drop — Kernelport</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+  html, body { margin: 0; height: 100%; background: #07020f; overflow: hidden; }
+  body { display: flex; align-items: center; justify-content: center; }
+  canvas { display: block; background: #07020f; image-rendering: auto; box-shadow: 0 0 40px rgba(255,79,184,0.25); }
+  noscript { color: #fff; font-family: sans-serif; }
+</style>
+</head>
+<body>
+<canvas id="screen" width="960" height="540"></canvas>
+<noscript>Cube Drop needs JavaScript turned on.</noscript>
+<!-- Plain scripts (no modules) so the game runs straight from a double-clicked file. -->
+<script src="js/core.js"></script>
+<script src="js/audio.js"></script>
+<script src="js/city.js"></script>
+<!-- Mini-games register themselves into CD.games. Add new genres here. -->
+<script src="games/racer.js"></script>
+<script src="games/platformer.js"></script>
+<script src="games/shooter.js"></script>
+<script src="games/fighter.js"></script>
+<script src="js/main.js"></script>
+</body>
+</html>
