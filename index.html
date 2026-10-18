@@ -37,14 +37,467 @@ video{margin-bottom:6px;aspect-ratio:16/9}.tag.gray{background:#999}.card .tag{d
 #pl-body{flex:1;min-height:0;background:#000}#pl-body iframe,#pl-body video{width:100%;height:100%;border:0;display:block;margin:0;aspect-ratio:auto}
 body.noscroll{overflow:hidden}.center{text-align:center}[hidden]{display:none!important}
 @media(max-width:600px){header{padding:18px 5vw}h1{font-size:1.6rem}header img{width:60px;height:60px}.grid{grid-template-columns:1fr}#pl{padding:0}#pl-box{width:100vw;height:100%;border-radius:0;border:0}#pl-bar b{max-width:100%;flex-basis:100%}#chips{overflow-x:auto;flex-wrap:nowrap;width:100%}.chip{flex:0 0 auto}}
+/* v3: hide mode, lyrics, site thumbs */
+#hidebar{display:flex;align-items:center;gap:6px}.chip.hm{background:#fff;border:2px solid var(--pink);font-weight:700}body.editing .chip.hm{background:var(--green);color:#fff;border-color:var(--green)}
+.hc{font-size:.8rem;color:#fff;background:var(--pink);padding:3px 9px;border-radius:12px;white-space:nowrap}
+.editnote{flex-basis:100%;margin:2px 0 0;font-size:.85rem;color:var(--ink);background:var(--green2);padding:6px 12px;border-radius:12px}
+.item{position:relative}.hidechk{display:none}
+body.editing .hidechk{display:flex;align-items:center;gap:4px;position:absolute;top:6px;right:6px;z-index:3;background:#fff;color:var(--ink);border:2px solid var(--pink);border-radius:12px;padding:3px 8px;font-size:.75rem;font-weight:700;cursor:pointer;box-shadow:0 2px 6px #0002}
+body.editing .hidechk input{width:18px;height:18px;margin:0;accent-color:var(--pink);cursor:pointer}
+body.editing .item.is-hidden{opacity:.45;outline:3px dashed var(--pink);outline-offset:-3px}body.editing .item.is-hidden .hidechk{opacity:1}
+body.editing .song{padding-right:96px}
+.lyr{background:var(--green)!important}.lyr[aria-expanded=true]{background:var(--pink)!important}
+pre.lyrics{flex-basis:100%;white-space:pre-wrap;font:inherit;font-size:.95rem;line-height:1.55;margin:4px 0 0;padding:12px 16px;background:linear-gradient(135deg,#fff5f9,#f0fbf5);border-left:5px solid var(--pink);border-radius:12px;max-height:60vh;overflow:auto}
+.sthumb{display:block;width:100%;padding:0;border:0;border-radius:12px;overflow:hidden;margin:0 0 10px;cursor:pointer;background:#fff;aspect-ratio:16/10}.sthumb img{width:100%;height:100%;object-fit:cover;object-position:top;display:block}
+.big .new{font-size:.6rem;margin-left:6px}
+@media(max-width:600px){#hidebar{width:100%;justify-content:flex-start}.row{flex-wrap:wrap}}
+body.editing .item h3,body.editing .item>b,body.editing .app>b{padding-right:74px}body.editing .big .sthumb{margin-top:30px}
 </style></head><body>
 <header><img src="img/logo-icon.png" alt=""><div><h1>Mat's <span>Dashboard</span></h1><p>All your games, videos, songs, apps and printables. Play them right here 💗💚</p></div></header>
-<div id="bar"><input id="search" type="search" placeholder="🔍 Search everything…" autocomplete="off"><div id="chips"><button class="chip on" data-k="all">All</button><button class="chip" data-k="game">🎮 Games</button><button class="chip" data-k="video">🎬 Videos</button><button class="chip" data-k="song">🎵 Songs</button><button class="chip" data-k="app">🧩 Apps</button><button class="chip" data-k="doc">✨ Printables & more</button></div></div><main>
+<div id="bar"><input id="search" type="search" placeholder="🔍 Search everything…" autocomplete="off"><div id="chips"><button class="chip on" data-k="all">All</button><button class="chip" data-k="game">🎮 Games</button><button class="chip" data-k="video">🎬 Videos</button><button class="chip" data-k="song">🎵 Songs</button><button class="chip" data-k="app">🧩 Apps</button><button class="chip" data-k="doc">✨ Printables & more</button></div><div id="hidebar"><button id="hidemode" class="chip hm" type="button" aria-pressed="false">🙈 Hide mode</button><span id="hidecount" class="hc" hidden></span></div><p id="edit-note" class="editnote" hidden>✏️ Unhide mode: every item is shown. Tick ☑ the box on anything you want to hide, then tap “🙈 Hide mode” to hide them.</p></div><main>
 <section id="recent" hidden><h2>⏯️ Continue where you left off</h2><div id="recent-list"></div><button id="recent-clear" class="sm linkish">clear</button></section>
-<section data-sec><h2>🌐 My sites</h2><div class="top"><div class="big item" data-kind="app" data-id="app-app-house" data-q="app house app-house.grok.me site"><b>App House</b><small>app-house.grok.me</small><div><button class="btn go w" data-src="https://app-house.grok.me" data-type="frame" data-title="App House" data-id="app-app-house" data-kind="app" data-dl="">▶ Open here</button><a class="btn alt w" href="https://app-house.grok.me" target="_blank" rel="noopener">↗ New tab</a></div></div><div class="big g item" data-kind="app" data-id="app-universe-74" data-q="universe 74 gutsmcd-cmd.github.io/universe-74 site"><b>Universe 74</b><small>gutsmcd-cmd.github.io/universe-74</small><div><button class="btn go w" data-src="https://gutsmcd-cmd.github.io/universe-74/" data-type="frame" data-title="Universe 74" data-id="app-universe-74" data-kind="app" data-dl="">▶ Open here</button><a class="btn alt w" href="https://gutsmcd-cmd.github.io/universe-74/" target="_blank" rel="noopener">↗ New tab</a></div></div></div></section>
+<section data-sec><h2>🌐 My sites</h2><div class="top"><div class="big item" data-kind="app" data-id="app-app-house" data-q="app house app-house.grok.me site"><b>App House</b><small>app-house.grok.me</small><div><button class="btn go w" data-src="https://app-house.grok.me" data-type="frame" data-title="App House" data-id="app-app-house" data-kind="app" data-dl="">▶ Open here</button><a class="btn alt w" href="https://app-house.grok.me" target="_blank" rel="noopener">↗ New tab</a></div></div><div class="big g item" data-kind="app" data-id="app-universe-74" data-q="universe 74 gutsmcd-cmd.github.io/universe-74 site"><b>Universe 74</b><small>gutsmcd-cmd.github.io/universe-74</small><div><button class="btn go w" data-src="https://gutsmcd-cmd.github.io/universe-74/" data-type="frame" data-title="Universe 74" data-id="app-universe-74" data-kind="app" data-dl="">▶ Open here</button><a class="btn alt w" href="https://gutsmcd-cmd.github.io/universe-74/" target="_blank" rel="noopener">↗ New tab</a></div></div><div class="big item" data-kind="app" data-id="app-the-og-site" data-q="the og site gutsmcd-cmd.github.io/free-apps · your original free apps site site og"><button class="sthumb go" data-src="https://gutsmcd-cmd.github.io/free-apps/" data-type="frame" data-title="The OG Site" data-id="app-the-og-site" data-kind="app" data-dl=""><img src="img/og-site.jpg" alt="" loading="lazy"></button><b>The OG Site <span class="new">NEW</span></b><small>gutsmcd-cmd.github.io/free-apps · your original free apps site</small><div><button class="btn go w" data-src="https://gutsmcd-cmd.github.io/free-apps/" data-type="frame" data-title="The OG Site" data-id="app-the-og-site" data-kind="app" data-dl="">▶ Open here</button><a class="btn alt w" href="https://gutsmcd-cmd.github.io/free-apps/" target="_blank" rel="noopener">↗ New tab</a></div></div></div></section>
 <section data-sec><h2>🎮 Games</h2><p class="note">▶ Play runs the game in a big player right on this page (⛶ for fullscreen; click inside the game once so it gets the keyboard and mouse). Chrome on a PC works best. 🔒 downloads come from your Google Drive and work when you're signed in.</p><div class="grid"><div class="card item" data-kind="game" data-id="game-cube-drop-kernelport" data-q="cube drop: kernelport v0.1 · mcgamer&#x27;s reboot-style game cube collection: 4 games in one (racer, platformer, shooter, fighter) · keyboard game"><span class="tag">▶ plays in browser</span><h3>🎮 Cube Drop: Kernelport <span class="new">NEW</span></h3><p class="meta">v0.1 · McGamer&#x27;s ReBoot-style Game Cube collection: 4 games in one (racer, platformer, shooter, fighter) · keyboard</p><button class="thumb go" data-src="apps/cube-drop/" data-type="frame" data-title="Cube Drop: Kernelport" data-id="game-cube-drop-kernelport" data-kind="game" data-dl=""><img src="games/cube-drop.jpg" alt="" loading="lazy"><span class="play">▶ Play</span></button><div><button class="btn go" data-src="apps/cube-drop/" data-type="frame" data-title="Cube Drop: Kernelport" data-id="game-cube-drop-kernelport" data-kind="game" data-dl="">▶ Play here</button><a class="btn alt" href="apps/cube-drop/" target="_blank" rel="noopener">↗ New tab</a><a class="btn alt" href="apps/cube-drop-0.1.zip" target="_blank" rel="noopener" download>⬇ Zip (public)</a><a class="btn alt" href="https://drive.google.com/uc?export=download&amp;id=1O_GIkKEaJuvaDYcl63nmyi06xyvtDrLa" target="_blank" rel="noopener">🔒 Zip (Drive)</a></div></div><div class="card item" data-kind="game" data-id="game-neon-skyway" data-q="neon skyway v1.1 · 30 tracks, new tiles, insane mode · keyboard or gamepad game"><span class="tag">▶ plays in browser</span><h3>🎮 Neon Skyway <span class="new">NEW</span></h3><p class="meta">v1.1 · 30 tracks, new tiles, Insane Mode · keyboard or gamepad</p><button class="thumb go" data-src="apps/neon-skyway/" data-type="frame" data-title="Neon Skyway" data-id="game-neon-skyway" data-kind="game" data-dl=""><img src="games/neon-skyway.jpg" alt="" loading="lazy"><span class="play">▶ Play</span></button><div><button class="btn go" data-src="apps/neon-skyway/" data-type="frame" data-title="Neon Skyway" data-id="game-neon-skyway" data-kind="game" data-dl="">▶ Play here</button><a class="btn alt" href="apps/neon-skyway/" target="_blank" rel="noopener">↗ New tab</a><a class="btn alt" href="https://drive.google.com/uc?export=download&amp;id=1wMv3tIliEGd_AZ5AbeFHuUomkYzU3o7E" target="_blank" rel="noopener">🔒 Linux zip v1.1</a><a class="btn alt" href="https://drive.google.com/uc?export=download&amp;id=10CSHMJDAbHCWPg8gHp_FIx-5sAP3ApG5" target="_blank" rel="noopener">🔒 Linux zip v1.0</a></div></div><div class="card item" data-kind="game" data-id="game-night-audit" data-q="night audit v1.3.0 · mouse + keyboard game"><span class="tag">▶ plays in browser</span><h3>🎮 Night Audit</h3><p class="meta">v1.3.0 · mouse + keyboard</p><button class="thumb go" data-src="apps/night-audit/" data-type="frame" data-title="Night Audit" data-id="game-night-audit" data-kind="game" data-dl=""><img src="games/night-audit.jpg" alt="" loading="lazy"><span class="play">▶ Play</span></button><div><button class="btn go" data-src="apps/night-audit/" data-type="frame" data-title="Night Audit" data-id="game-night-audit" data-kind="game" data-dl="">▶ Play here</button><a class="btn alt" href="apps/night-audit/" target="_blank" rel="noopener">↗ New tab</a><a class="btn alt" href="https://drive.google.com/uc?export=download&amp;id=12npC47gexl47rlxa6gx7fA5xSt2iHpc3" target="_blank" rel="noopener">🔒 Linux zip</a></div></div><div class="card item" data-kind="game" data-id="game-vine-night" data-q="vine night v1.0.1 · mouse, or touch on a phone · also an android app game"><span class="tag">▶ plays in browser</span><h3>🎮 Vine Night</h3><p class="meta">v1.0.1 · mouse, or touch on a phone · also an Android app</p><button class="thumb go" data-src="apps/vine-night/" data-type="frame" data-title="Vine Night" data-id="game-vine-night" data-kind="game" data-dl=""><img src="games/vine-night.jpg" alt="" loading="lazy"><span class="play">▶ Play</span></button><div><button class="btn go" data-src="apps/vine-night/" data-type="frame" data-title="Vine Night" data-id="game-vine-night" data-kind="game" data-dl="">▶ Play here</button><a class="btn alt" href="apps/vine-night/" target="_blank" rel="noopener">↗ New tab</a><a class="btn alt" href="https://drive.google.com/uc?export=download&amp;id=1TLAQ_Md7h-wODkiVCedZxzji0I2CAsg3" target="_blank" rel="noopener">🔒 Linux zip</a><a class="btn alt" href="https://drive.google.com/uc?export=download&amp;id=105g5dcOrW0DDs3NMnxUBpUKejRUXKTNH" target="_blank" rel="noopener">📱 Android APK</a></div></div><div class="card item" data-kind="game" data-id="game-alley-quest" data-q="alley quest v0.2 · mouse game"><span class="tag">▶ plays in browser</span><h3>🎮 Alley Quest</h3><p class="meta">v0.2 · mouse</p><button class="thumb go" data-src="apps/alley-quest/" data-type="frame" data-title="Alley Quest" data-id="game-alley-quest" data-kind="game" data-dl=""><img src="games/alley-quest.jpg" alt="" loading="lazy"><span class="play">▶ Play</span></button><div><button class="btn go" data-src="apps/alley-quest/" data-type="frame" data-title="Alley Quest" data-id="game-alley-quest" data-kind="game" data-dl="">▶ Play here</button><a class="btn alt" href="apps/alley-quest/" target="_blank" rel="noopener">↗ New tab</a><a class="btn alt" href="https://drive.google.com/uc?export=download&amp;id=1QoUCHmijWp1npBL-KnheATOF3eIxTueG" target="_blank" rel="noopener">🔒 Linux zip</a></div></div><div class="card item" data-kind="game" data-id="game-last-copy" data-q="last copy v1.0 · mouse + keyboard game"><span class="tag">▶ plays in browser</span><h3>🎮 Last Copy</h3><p class="meta">v1.0 · mouse + keyboard</p><button class="thumb go" data-src="apps/last-copy/" data-type="frame" data-title="Last Copy" data-id="game-last-copy" data-kind="game" data-dl=""><img src="games/last-copy.jpg" alt="" loading="lazy"><span class="play">▶ Play</span></button><div><button class="btn go" data-src="apps/last-copy/" data-type="frame" data-title="Last Copy" data-id="game-last-copy" data-kind="game" data-dl="">▶ Play here</button><a class="btn alt" href="apps/last-copy/" target="_blank" rel="noopener">↗ New tab</a><a class="btn alt" href="https://drive.google.com/uc?export=download&amp;id=1YPebl5if-KKJ1f1obTh77FbFFcFhbMMT" target="_blank" rel="noopener">🔒 Linux zip</a></div></div></div></section>
 <section data-sec><h2>🎬 Music videos & story videos</h2><div class="grid"><div class="card item" data-kind="video" data-id="video-the-octopus-mind-rough-cut-glass-bells-m" data-q="the octopus mind (rough cut, glass bells music) oct 18 · mcreel · second festival film, rough cut with your treblo take “glass bells” (unreleased) video"><h3>The Octopus Mind (rough cut, Glass Bells music) <span class="new">NEW</span></h3><p class="meta">Oct 18 · McReel · second festival film, rough cut with your Treblo take “Glass Bells” (unreleased)</p><div class="ifr-slot"><button class="thumb inl" data-src="https://drive.google.com/file/d/1mZ9BhsePrtoSo-Tn5GCxtICJgAQauYX4/preview" data-id="video-the-octopus-mind-rough-cut-glass-bells-m" data-title="The Octopus Mind (rough cut, Glass Bells music)" data-kind="video"><img src="new/the-octopus-mind.jpg" alt="" loading="lazy"><span class="play">▶ Play (private)</span></button></div><p class="sm">🔒 Private: plays here only for you, when this browser is signed in to your Google account. Not in the public site files.</p><div><button class="btn go" data-src="https://drive.google.com/file/d/1mZ9BhsePrtoSo-Tn5GCxtICJgAQauYX4/preview" data-type="frame" data-title="The Octopus Mind (rough cut, Glass Bells music)" data-id="video-the-octopus-mind-rough-cut-glass-bells-m" data-kind="video" data-dl="https://drive.google.com/uc?export=download&amp;id=1mZ9BhsePrtoSo-Tn5GCxtICJgAQauYX4">⛶ Big player</button><a class="btn alt" href="https://drive.google.com/uc?export=download&amp;id=1mZ9BhsePrtoSo-Tn5GCxtICJgAQauYX4" target="_blank" rel="noopener">🔒 Download (Drive)</a><a class="btn alt" href="https://drive.google.com/file/d/1mZ9BhsePrtoSo-Tn5GCxtICJgAQauYX4/view" target="_blank" rel="noopener">↗ Drive</a></div></div><div class="card item" data-kind="video" data-id="video-the-octopus-mind-rough-cut-tender-curren" data-q="the octopus mind (rough cut, tender currents music) oct 18 · mcreel · same rough cut with your treblo take “tender currents” (unreleased) video"><h3>The Octopus Mind (rough cut, Tender Currents music) <span class="new">NEW</span></h3><p class="meta">Oct 18 · McReel · same rough cut with your Treblo take “Tender Currents” (unreleased)</p><div class="ifr-slot"><button class="thumb inl" data-src="https://drive.google.com/file/d/1Hy6PWY64ntFOGRTL3VRjfSifzLEXDwia/preview" data-id="video-the-octopus-mind-rough-cut-tender-curren" data-title="The Octopus Mind (rough cut, Tender Currents music)" data-kind="video"><img src="new/the-octopus-mind-2.jpg" alt="" loading="lazy"><span class="play">▶ Play (private)</span></button></div><p class="sm">🔒 Private: plays here only for you, when this browser is signed in to your Google account. Not in the public site files.</p><div><button class="btn go" data-src="https://drive.google.com/file/d/1Hy6PWY64ntFOGRTL3VRjfSifzLEXDwia/preview" data-type="frame" data-title="The Octopus Mind (rough cut, Tender Currents music)" data-id="video-the-octopus-mind-rough-cut-tender-curren" data-kind="video" data-dl="https://drive.google.com/uc?export=download&amp;id=1Hy6PWY64ntFOGRTL3VRjfSifzLEXDwia">⛶ Big player</button><a class="btn alt" href="https://drive.google.com/uc?export=download&amp;id=1Hy6PWY64ntFOGRTL3VRjfSifzLEXDwia" target="_blank" rel="noopener">🔒 Download (Drive)</a><a class="btn alt" href="https://drive.google.com/file/d/1Hy6PWY64ntFOGRTL3VRjfSifzLEXDwia/view" target="_blank" rel="noopener">↗ Drive</a></div></div><div class="card item" data-kind="video" data-id="video-the-slowest-nerve" data-q="the slowest nerve oct 18 · mcreel · final film, public on youtube (flick ai film festival) video"><h3>The Slowest Nerve <span class="new">NEW</span></h3><p class="meta">Oct 18 · McReel · final film, public on YouTube (Flick AI Film Festival)</p><div class="ifr-slot"><button class="thumb inl" data-src="https://www.youtube-nocookie.com/embed/_FTMhHkw0Oo?autoplay=1&amp;rel=0" data-id="video-the-slowest-nerve" data-title="The Slowest Nerve" data-kind="video"><img src="media/thumbs/the-slowest-nerve-final.jpg" alt="" loading="lazy"><span class="play">▶ Play</span></button></div><div><button class="btn go" data-src="https://www.youtube-nocookie.com/embed/_FTMhHkw0Oo?autoplay=1&amp;rel=0" data-type="frame" data-title="The Slowest Nerve" data-id="video-the-slowest-nerve" data-kind="video" data-dl="https://drive.google.com/uc?export=download&amp;id=1NigTA3tXEkr5z6ftvq2vXSmfyGnNGPlq">⛶ Big player</button><a class="btn alt" href="https://drive.google.com/uc?export=download&amp;id=1NigTA3tXEkr5z6ftvq2vXSmfyGnNGPlq" target="_blank" rel="noopener">🔒 Download (Drive)</a><a class="btn alt" href="https://www.youtube.com/watch?v=_FTMhHkw0Oo" target="_blank" rel="noopener">↗ YouTube</a></div></div><div class="card item" data-kind="video" data-id="video-the-slowest-nerve-draft" data-q="the slowest nerve (draft) oct 15 · mcreel · flick ai film festival entry, draft with score video"><h3>The Slowest Nerve (draft) <span class="new">NEW</span></h3><p class="meta">Oct 15 · McReel · Flick AI Film Festival entry, draft with score</p><div class="ifr-slot"><button class="thumb inl" data-src="https://drive.google.com/file/d/13O1ubeVQPHOV1iOi5sFfdDcWRFk5-Bmb/preview" data-id="video-the-slowest-nerve-draft" data-title="The Slowest Nerve (draft)" data-kind="video"><img src="new/the-slowest-nerve.jpg" alt="" loading="lazy"><span class="play">▶ Play (private)</span></button></div><p class="sm">🔒 Private: plays here only for you, when this browser is signed in to your Google account. Not in the public site files.</p><div><button class="btn go" data-src="https://drive.google.com/file/d/13O1ubeVQPHOV1iOi5sFfdDcWRFk5-Bmb/preview" data-type="frame" data-title="The Slowest Nerve (draft)" data-id="video-the-slowest-nerve-draft" data-kind="video" data-dl="https://drive.google.com/uc?export=download&amp;id=13O1ubeVQPHOV1iOi5sFfdDcWRFk5-Bmb">⛶ Big player</button><a class="btn alt" href="https://drive.google.com/uc?export=download&amp;id=13O1ubeVQPHOV1iOi5sFfdDcWRFk5-Bmb" target="_blank" rel="noopener">🔒 Download (Drive)</a><a class="btn alt" href="https://drive.google.com/file/d/13O1ubeVQPHOV1iOi5sFfdDcWRFk5-Bmb/view" target="_blank" rel="noopener">↗ Drive</a></div></div><div class="card item" data-kind="video" data-id="video-pink-and-green" data-q="pink and green oct 14 · music video · study songs “pink and green” video"><h3>Pink and Green</h3><p class="meta">Oct 14 · Music video · Study Songs “Pink and Green”</p><video controls preload="none" playsinline poster="media/thumbs/pink-and-green.jpg" src="media/pink-and-green.mp4" data-id="video-pink-and-green" data-title="Pink and Green" data-kind="video"></video><div><button class="btn go" data-src="media/pink-and-green.mp4" data-type="video" data-title="Pink and Green" data-id="video-pink-and-green" data-kind="video" data-dl="media/pink-and-green.mp4">⛶ Big player</button><a class="btn alt" href="media/pink-and-green.mp4" target="_blank" rel="noopener" download>⬇ Download</a></div></div><div class="card item" data-kind="video" data-id="video-is-it-a-transformer" data-q="is it a transformer? oct 14 · music video · treblo “red light, teal light” video"><h3>Is It a Transformer?</h3><p class="meta">Oct 14 · Music video · Treblo “Red Light, Teal Light”</p><video controls preload="none" playsinline poster="media/thumbs/is-it-a-transformer.jpg" src="media/is-it-a-transformer.mp4" data-id="video-is-it-a-transformer" data-title="Is It a Transformer?" data-kind="video"></video><div><button class="btn go" data-src="media/is-it-a-transformer.mp4" data-type="video" data-title="Is It a Transformer?" data-id="video-is-it-a-transformer" data-kind="video" data-dl="media/is-it-a-transformer.mp4">⛶ Big player</button><a class="btn alt" href="media/is-it-a-transformer.mp4" target="_blank" rel="noopener" download>⬇ Download</a></div></div><div class="card item" data-kind="video" data-id="video-rewind-the-night-shift-in-your-head" data-q="rewind: the night shift in your head oct 14 · neuroscience music video video"><h3>REWIND: The Night Shift in Your Head</h3><p class="meta">Oct 14 · Neuroscience music video</p><video controls preload="none" playsinline poster="media/thumbs/rewind-the-night-shift-in-your-head.jpg" src="media/rewind-the-night-shift-in-your-head.mp4" data-id="video-rewind-the-night-shift-in-your-head" data-title="REWIND: The Night Shift in Your Head" data-kind="video"></video><div><button class="btn go" data-src="media/rewind-the-night-shift-in-your-head.mp4" data-type="video" data-title="REWIND: The Night Shift in Your Head" data-id="video-rewind-the-night-shift-in-your-head" data-kind="video" data-dl="media/rewind-the-night-shift-in-your-head.mp4">⛶ Big player</button><a class="btn alt" href="media/rewind-the-night-shift-in-your-head.mp4" target="_blank" rel="noopener" download>⬇ Download</a></div></div><div class="card item" data-kind="video" data-id="video-obsessed-with-the-guest" data-q="obsessed with the guest oct 10 · private crossover story · japanese subtitles video"><h3>Obsessed with The Guest</h3><p class="meta">Oct 10 · Private crossover story · Japanese subtitles</p><div class="ifr-slot"><button class="thumb inl" data-src="https://drive.google.com/file/d/1tOk7USJiUX3gdCj28QvkEmTKcPpQ2YrB/preview" data-id="video-obsessed-with-the-guest" data-title="Obsessed with The Guest" data-kind="video"><img src="media/thumbs/obsessed-with-the-guest.jpg" alt="" loading="lazy"><span class="play">▶ Play (private)</span></button></div><p class="sm">🔒 Private: plays here only for you, when this browser is signed in to your Google account. Not in the public site files.</p><div><button class="btn go" data-src="https://drive.google.com/file/d/1tOk7USJiUX3gdCj28QvkEmTKcPpQ2YrB/preview" data-type="frame" data-title="Obsessed with The Guest" data-id="video-obsessed-with-the-guest" data-kind="video" data-dl="https://drive.google.com/uc?export=download&amp;id=1tOk7USJiUX3gdCj28QvkEmTKcPpQ2YrB">⛶ Big player</button><a class="btn alt" href="https://drive.google.com/uc?export=download&amp;id=1tOk7USJiUX3gdCj28QvkEmTKcPpQ2YrB" target="_blank" rel="noopener">🔒 Download (Drive)</a><a class="btn alt" href="https://drive.google.com/file/d/1tOk7USJiUX3gdCj28QvkEmTKcPpQ2YrB/view" target="_blank" rel="noopener">↗ Drive</a></div></div><div class="card item" data-kind="video" data-id="video-oct-15-a-real-transformer" data-q="oct 15: a real transformer? oct 9 · roadster dream story video"><h3>Oct 15: A Real Transformer?</h3><p class="meta">Oct 9 · Roadster dream story</p><div class="ifr-slot"><button class="thumb inl" data-src="https://www.youtube-nocookie.com/embed/MSKhL4KTNlQ?autoplay=1&amp;rel=0" data-id="video-oct-15-a-real-transformer" data-title="Oct 15: A Real Transformer?" data-kind="video"><img src="media/thumbs/oct-15-a-real-transformer.jpg" alt="" loading="lazy"><span class="play">▶ Play</span></button></div><div><button class="btn go" data-src="https://www.youtube-nocookie.com/embed/MSKhL4KTNlQ?autoplay=1&amp;rel=0" data-type="frame" data-title="Oct 15: A Real Transformer?" data-id="video-oct-15-a-real-transformer" data-kind="video" data-dl="https://drive.google.com/uc?export=download&amp;id=14pIl94VsHeCloq06EdbaB0gkbmk0cNxP">⛶ Big player</button><a class="btn alt" href="https://drive.google.com/uc?export=download&amp;id=14pIl94VsHeCloq06EdbaB0gkbmk0cNxP" target="_blank" rel="noopener">🔒 Download (Drive)</a><a class="btn alt" href="https://www.youtube.com/watch?v=MSKhL4KTNlQ" target="_blank" rel="noopener">↗ YouTube</a></div></div><div class="card item" data-kind="video" data-id="video-the-hugging-face-attack-the-complete-sto" data-q="the hugging face attack: the complete story oct 9 · story video video"><h3>The Hugging Face Attack: The Complete Story</h3><p class="meta">Oct 9 · Story video</p><div class="ifr-slot"><button class="thumb inl" data-src="https://www.youtube-nocookie.com/embed/4Va8Bd3mWnw?autoplay=1&amp;rel=0" data-id="video-the-hugging-face-attack-the-complete-sto" data-title="The Hugging Face Attack: The Complete Story" data-kind="video"><img src="media/thumbs/the-hugging-face-attack-the-complete-story.jpg" alt="" loading="lazy"><span class="play">▶ Play</span></button></div><div><button class="btn go" data-src="https://www.youtube-nocookie.com/embed/4Va8Bd3mWnw?autoplay=1&amp;rel=0" data-type="frame" data-title="The Hugging Face Attack: The Complete Story" data-id="video-the-hugging-face-attack-the-complete-sto" data-kind="video" data-dl="https://drive.google.com/uc?export=download&amp;id=1v3Q9_79f7NEXjRjsXTVrffMVvBKgsczY">⛶ Big player</button><a class="btn alt" href="https://drive.google.com/uc?export=download&amp;id=1v3Q9_79f7NEXjRjsXTVrffMVvBKgsczY" target="_blank" rel="noopener">🔒 Download (Drive)</a><a class="btn alt" href="https://www.youtube.com/watch?v=4Va8Bd3mWnw" target="_blank" rel="noopener">↗ YouTube</a></div></div></div></section>
-<section data-sec><h2>🎵 Songs & audio</h2><p class="note">Songs remember where you stopped. ⬇ saves the mp3.</p><div class="song item" data-kind="song" data-id="song-steel-that-learned-to-walk-red-light-tea" data-q="steel that learned to walk – red light, teal light treblo song music"><div><b>Steel That Learned to Walk – Red Light, Teal Light</b><span class="meta"> · Treblo</span></div><div class="row"><audio controls preload="none" src="media/steel-that-learned-to-walk-red-light-teal-light.mp3" data-id="song-steel-that-learned-to-walk-red-light-tea" data-title="Steel That Learned to Walk – Red Light, Teal Light" data-kind="song"></audio><a class="btn alt dl" href="media/steel-that-learned-to-walk-red-light-teal-light.mp3" target="_blank" rel="noopener" download>⬇</a></div></div><div class="song item" data-kind="song" data-id="song-steel-that-learned-to-walk-the-dream-won" data-q="steel that learned to walk – the dream won&#x27;t stop treblo song music"><div><b>Steel That Learned to Walk – The Dream Won&#x27;t Stop</b><span class="meta"> · Treblo</span></div><div class="row"><audio controls preload="none" src="media/steel-that-learned-to-walk-the-dream-won-t-stop.mp3" data-id="song-steel-that-learned-to-walk-the-dream-won" data-title="Steel That Learned to Walk – The Dream Won&#x27;t Stop" data-kind="song"></audio><a class="btn alt dl" href="media/steel-that-learned-to-walk-the-dream-won-t-stop.mp3" target="_blank" rel="noopener" download>⬇</a></div></div><div class="song item" data-kind="song" data-id="song-night-shift-in-your-head-fire-together-w" data-q="night shift in your head – fire together, wire together treblo · neuroscience song music"><div><b>Night Shift in Your Head – Fire Together, Wire Together</b><span class="meta"> · Treblo · neuroscience</span></div><div class="row"><audio controls preload="none" src="media/night-shift-in-your-head-fire-together-wire-togeth.mp3" data-id="song-night-shift-in-your-head-fire-together-w" data-title="Night Shift in Your Head – Fire Together, Wire Together" data-kind="song"></audio><a class="btn alt dl" href="media/night-shift-in-your-head-fire-together-wire-togeth.mp3" target="_blank" rel="noopener" download>⬇</a></div></div><div class="song item" data-kind="song" data-id="song-night-shift-in-your-head-eighty-six-bill" data-q="night shift in your head – eighty-six billion stars treblo · neuroscience song music"><div><b>Night Shift in Your Head – Eighty-Six Billion Stars</b><span class="meta"> · Treblo · neuroscience</span></div><div class="row"><audio controls preload="none" src="media/night-shift-in-your-head-eighty-six-billion-stars.mp3" data-id="song-night-shift-in-your-head-eighty-six-bill" data-title="Night Shift in Your Head – Eighty-Six Billion Stars" data-kind="song"></audio><a class="btn alt dl" href="media/night-shift-in-your-head-eighty-six-billion-stars.mp3" target="_blank" rel="noopener" download>⬇</a></div></div><div class="song item" data-kind="song" data-id="song-pink-and-green" data-q="pink and green study songs song music"><div><b>Pink and Green</b><span class="meta"> · Study Songs</span></div><div class="row"><audio controls preload="none" src="media/pink-and-green-study-songs.mp3" data-id="song-pink-and-green" data-title="Pink and Green" data-kind="song"></audio><a class="btn alt dl" href="media/pink-and-green-study-songs.mp3" target="_blank" rel="noopener" download>⬇</a></div></div><div class="song item" data-kind="song" data-id="song-osaka-night-run" data-q="osaka night run study songs song music"><div><b>Osaka Night Run</b><span class="meta"> · Study Songs</span></div><div class="row"><audio controls preload="none" src="media/osaka-night-run-study-songs.mp3" data-id="song-osaka-night-run" data-title="Osaka Night Run" data-kind="song"></audio><a class="btn alt dl" href="media/osaka-night-run-study-songs.mp3" target="_blank" rel="noopener" download>⬇</a></div></div><div class="song item" data-kind="song" data-id="song-the-mc-family" data-q="the mc family study songs song music"><div><b>The Mc Family</b><span class="meta"> · Study Songs</span></div><div class="row"><audio controls preload="none" src="media/the-mc-family-study-songs.mp3" data-id="song-the-mc-family" data-title="The Mc Family" data-kind="song"></audio><a class="btn alt dl" href="media/the-mc-family-study-songs.mp3" target="_blank" rel="noopener" download>⬇</a></div></div><div class="song item" data-kind="song" data-id="song-lost-media-hunter" data-q="lost media hunter study songs song music"><div><b>Lost Media Hunter</b><span class="meta"> · Study Songs</span></div><div class="row"><audio controls preload="none" src="media/lost-media-hunter-study-songs.mp3" data-id="song-lost-media-hunter" data-title="Lost Media Hunter" data-kind="song"></audio><a class="btn alt dl" href="media/lost-media-hunter-study-songs.mp3" target="_blank" rel="noopener" download>⬇</a></div></div><div class="song item" data-kind="song" data-id="song-narrator-voice-samples-all-14" data-q="narrator voice samples (all 14) onyx (01) and lewis (03) are your picks song music"><div><b>Narrator voice samples (all 14)</b><span class="meta"> · Onyx (01) and Lewis (03) are your picks</span></div><div class="row"><audio controls preload="none" src="media/narrator-voice-samples-all-14.mp3" data-id="song-narrator-voice-samples-all-14" data-title="Narrator voice samples (all 14)" data-kind="song"></audio><a class="btn alt dl" href="media/narrator-voice-samples-all-14.mp3" target="_blank" rel="noopener" download>⬇</a></div></div></section>
+<section data-sec><h2>🎵 Songs & audio</h2><p class="note">Songs remember where you stopped. ⬇ saves the mp3. 📝 Lyrics opens the words right under the song.</p><div class="song item" data-kind="song" data-id="song-steel-that-learned-to-walk-red-light-tea" data-q="steel that learned to walk – red light, teal light treblo song music"><div><b>Steel That Learned to Walk – Red Light, Teal Light</b><span class="meta"> · Treblo</span></div><div class="row"><audio controls preload="none" src="media/steel-that-learned-to-walk-red-light-teal-light.mp3" data-id="song-steel-that-learned-to-walk-red-light-tea" data-title="Steel That Learned to Walk – Red Light, Teal Light" data-kind="song"></audio><a class="btn alt dl" href="media/steel-that-learned-to-walk-red-light-teal-light.mp3" target="_blank" rel="noopener" download>⬇</a><button class="btn lyr" type="button" aria-expanded="false" data-for="song-steel-that-learned-to-walk-red-light-tea">📝 Lyrics</button></div><pre class="lyrics" id="ly-song-steel-that-learned-to-walk-red-light-tea" hidden>Is It a Transformer? (Steel That Learned to Walk)
+
+[Intro]
+(ooh, ooh)
+Red light, teal light
+Ten days out
+
+[Verse 1]
+Fell asleep with the radio on
+A man on a podcast singing one line all night long
+&quot;I&#x27;m not sure it&#x27;s even a car&quot;
+He laughed like the punchline went way too far
+All the spy-film gadgets stacked into one
+Smoke and mirrors and a hidden gun
+And the fog rolled in on a date in my head
+October fifteen, glowing red
+
+[Pre-Chorus]
+Rockets came home
+The loud cars fell quiet
+Machines started talking
+So why can&#x27;t I buy it
+
+[Chorus]
+Is it a Transformer?
+Standing in the fog tonight
+Red on one side, teal on the other
+Shining in my headlights
+Is it a Transformer?
+Steel that learned to walk
+It looks like a car, it looks like a car
+But the dream won&#x27;t stop
+
+[Verse 2]
+Then a faster voice came through the static
+Counting the parts like a dream mechanic
+Same eyes, same brain, same motors inside
+Wheels turned to wrists, a knee that can ride
+A factory floor where the old cars were made
+Learning to build bodies out of the shade
+And the robot&#x27;s name was a joke on a wire
+Optimus, standing by the fire
+
+[Pre-Chorus]
+Rockets came home
+The loud cars fell quiet
+Machines started talking
+So why can&#x27;t I buy it
+
+[Chorus]
+Is it a Transformer?
+Standing in the fog tonight
+Red on one side, teal on the other
+Shining in my headlights
+Is it a Transformer?
+Steel that learned to walk
+It looks like a car, it looks like a car
+But the dream won&#x27;t stop
+
+[Bridge]
+The car stood up
+And I forgot to breathe
+One step, or I think so
+Dreams are liars with perfect timing
+Don&#x27;t bet against the stubborn ones
+But don&#x27;t swear that it walks
+Not on Thursday
+Not because the name is funny
+
+[Final Chorus]
+Is it a Transformer?
+Standing in the fog tonight
+Red on one side, teal on the other
+Shining in my headlights
+Is it a Transformer?
+Steel that learned to walk
+It looks like a car, it looks like a car
+But the dream won&#x27;t stop
+(No, the dream won&#x27;t stop)
+
+[Outro]
+Woke up, heart loud, the room is quiet
+The date&#x27;s still there in the dark
+Let the car take the night shift
+Transformer
+(ooh)</pre></div><div class="song item" data-kind="song" data-id="song-steel-that-learned-to-walk-the-dream-won" data-q="steel that learned to walk – the dream won&#x27;t stop treblo song music"><div><b>Steel That Learned to Walk – The Dream Won&#x27;t Stop</b><span class="meta"> · Treblo</span></div><div class="row"><audio controls preload="none" src="media/steel-that-learned-to-walk-the-dream-won-t-stop.mp3" data-id="song-steel-that-learned-to-walk-the-dream-won" data-title="Steel That Learned to Walk – The Dream Won&#x27;t Stop" data-kind="song"></audio><a class="btn alt dl" href="media/steel-that-learned-to-walk-the-dream-won-t-stop.mp3" target="_blank" rel="noopener" download>⬇</a><button class="btn lyr" type="button" aria-expanded="false" data-for="song-steel-that-learned-to-walk-the-dream-won">📝 Lyrics</button></div><pre class="lyrics" id="ly-song-steel-that-learned-to-walk-the-dream-won" hidden>Is It a Transformer? (Steel That Learned to Walk)
+
+[Intro]
+(ooh, ooh)
+Red light, teal light
+Ten days out
+
+[Verse 1]
+Fell asleep with the radio on
+A man on a podcast singing one line all night long
+&quot;I&#x27;m not sure it&#x27;s even a car&quot;
+He laughed like the punchline went way too far
+All the spy-film gadgets stacked into one
+Smoke and mirrors and a hidden gun
+And the fog rolled in on a date in my head
+October fifteen, glowing red
+
+[Pre-Chorus]
+Rockets came home
+The loud cars fell quiet
+Machines started talking
+So why can&#x27;t I buy it
+
+[Chorus]
+Is it a Transformer?
+Standing in the fog tonight
+Red on one side, teal on the other
+Shining in my headlights
+Is it a Transformer?
+Steel that learned to walk
+It looks like a car, it looks like a car
+But the dream won&#x27;t stop
+
+[Verse 2]
+Then a faster voice came through the static
+Counting the parts like a dream mechanic
+Same eyes, same brain, same motors inside
+Wheels turned to wrists, a knee that can ride
+A factory floor where the old cars were made
+Learning to build bodies out of the shade
+And the robot&#x27;s name was a joke on a wire
+Optimus, standing by the fire
+
+[Pre-Chorus]
+Rockets came home
+The loud cars fell quiet
+Machines started talking
+So why can&#x27;t I buy it
+
+[Chorus]
+Is it a Transformer?
+Standing in the fog tonight
+Red on one side, teal on the other
+Shining in my headlights
+Is it a Transformer?
+Steel that learned to walk
+It looks like a car, it looks like a car
+But the dream won&#x27;t stop
+
+[Bridge]
+The car stood up
+And I forgot to breathe
+One step, or I think so
+Dreams are liars with perfect timing
+Don&#x27;t bet against the stubborn ones
+But don&#x27;t swear that it walks
+Not on Thursday
+Not because the name is funny
+
+[Final Chorus]
+Is it a Transformer?
+Standing in the fog tonight
+Red on one side, teal on the other
+Shining in my headlights
+Is it a Transformer?
+Steel that learned to walk
+It looks like a car, it looks like a car
+But the dream won&#x27;t stop
+(No, the dream won&#x27;t stop)
+
+[Outro]
+Woke up, heart loud, the room is quiet
+The date&#x27;s still there in the dark
+Let the car take the night shift
+Transformer
+(ooh)</pre></div><div class="song item" data-kind="song" data-id="song-night-shift-in-your-head-fire-together-w" data-q="night shift in your head – fire together, wire together treblo · neuroscience song music"><div><b>Night Shift in Your Head – Fire Together, Wire Together</b><span class="meta"> · Treblo · neuroscience</span></div><div class="row"><audio controls preload="none" src="media/night-shift-in-your-head-fire-together-wire-togeth.mp3" data-id="song-night-shift-in-your-head-fire-together-w" data-title="Night Shift in Your Head – Fire Together, Wire Together" data-kind="song"></audio><a class="btn alt dl" href="media/night-shift-in-your-head-fire-together-wire-togeth.mp3" target="_blank" rel="noopener" download>⬇</a><button class="btn lyr" type="button" aria-expanded="false" data-for="song-night-shift-in-your-head-fire-together-w">📝 Lyrics</button></div><pre class="lyrics" id="ly-song-night-shift-in-your-head-fire-together-w" hidden>Rewind (The Night Shift in Your Head)
+
+[Intro]
+Lights out, eyes closed
+But the city in your head just woke
+
+[Verse 1]
+Eighty-six billion little stars
+Hiding in the dark of who you are
+Each one&#x27;s a neuron, a spark with a tail
+Sending little lightning down the trail
+Then it hits a gap, a tiny space
+That&#x27;s the synapse, the meeting place
+Chemicals jump across the line
+And a thought is born, right on time
+
+[Pre-Chorus]
+And all day long you&#x27;re learning
+Every step you take is burning in
+
+[Chorus]
+Fire together, wire together
+Every night it makes you better
+While you sleep, the brain rewinds
+Plays your day on fast-forward lines
+Fire together, wire together
+Light in pink and green forever
+Close your eyes, it&#x27;s not the end
+It&#x27;s the night shift in your head
+
+[Verse 2]
+There&#x27;s a seahorse deep inside
+Hippocampus is its name, it&#x27;s your guide
+It saw the road you walked today
+Now in deep sleep it presses play
+Little ripples, quick and bright
+Like a rhythm in the night
+Slow waves rolling, spindles spin
+Sending memories to the cortex skin
+
+[Pre-Chorus]
+And all night long it&#x27;s learning
+Every step you took is burning in
+
+[Chorus]
+Fire together, wire together
+Every night it makes you better
+While you sleep, the brain rewinds
+Plays your day on fast-forward lines
+Fire together, wire together
+Light in pink and green forever
+Close your eyes, it&#x27;s not the end
+It&#x27;s the night shift in your head
+
+[Bridge]
+And when the lights go low
+The space between the cells can grow
+In sleeping mice they saw it flow
+Sixty percent more room, you know
+A river through the brain at night
+Washing out the waste till it&#x27;s bright
+So when you wake up clear and new
+It&#x27;s the night crew working for you
+
+[Final Chorus]
+Fire together, wire together
+Every night it makes you better
+While you sleep, the brain rewinds
+Plays your day on fast-forward lines
+Fire together, wire together
+Light in pink and green forever
+Close your eyes, it&#x27;s not the end
+It&#x27;s the night shift in your head
+
+[Outro]
+Rewind, rewind
+Eighty-six billion stars align
+Good night, good night
+The night shift in your head</pre></div><div class="song item" data-kind="song" data-id="song-night-shift-in-your-head-eighty-six-bill" data-q="night shift in your head – eighty-six billion stars treblo · neuroscience song music"><div><b>Night Shift in Your Head – Eighty-Six Billion Stars</b><span class="meta"> · Treblo · neuroscience</span></div><div class="row"><audio controls preload="none" src="media/night-shift-in-your-head-eighty-six-billion-stars.mp3" data-id="song-night-shift-in-your-head-eighty-six-bill" data-title="Night Shift in Your Head – Eighty-Six Billion Stars" data-kind="song"></audio><a class="btn alt dl" href="media/night-shift-in-your-head-eighty-six-billion-stars.mp3" target="_blank" rel="noopener" download>⬇</a><button class="btn lyr" type="button" aria-expanded="false" data-for="song-night-shift-in-your-head-eighty-six-bill">📝 Lyrics</button></div><pre class="lyrics" id="ly-song-night-shift-in-your-head-eighty-six-bill" hidden>Rewind (The Night Shift in Your Head)
+
+[Intro]
+Lights out, eyes closed
+But the city in your head just woke
+
+[Verse 1]
+Eighty-six billion little stars
+Hiding in the dark of who you are
+Each one&#x27;s a neuron, a spark with a tail
+Sending little lightning down the trail
+Then it hits a gap, a tiny space
+That&#x27;s the synapse, the meeting place
+Chemicals jump across the line
+And a thought is born, right on time
+
+[Pre-Chorus]
+And all day long you&#x27;re learning
+Every step you take is burning in
+
+[Chorus]
+Fire together, wire together
+Every night it makes you better
+While you sleep, the brain rewinds
+Plays your day on fast-forward lines
+Fire together, wire together
+Light in pink and green forever
+Close your eyes, it&#x27;s not the end
+It&#x27;s the night shift in your head
+
+[Verse 2]
+There&#x27;s a seahorse deep inside
+Hippocampus is its name, it&#x27;s your guide
+It saw the road you walked today
+Now in deep sleep it presses play
+Little ripples, quick and bright
+Like a rhythm in the night
+Slow waves rolling, spindles spin
+Sending memories to the cortex skin
+
+[Pre-Chorus]
+And all night long it&#x27;s learning
+Every step you took is burning in
+
+[Chorus]
+Fire together, wire together
+Every night it makes you better
+While you sleep, the brain rewinds
+Plays your day on fast-forward lines
+Fire together, wire together
+Light in pink and green forever
+Close your eyes, it&#x27;s not the end
+It&#x27;s the night shift in your head
+
+[Bridge]
+And when the lights go low
+The space between the cells can grow
+In sleeping mice they saw it flow
+Sixty percent more room, you know
+A river through the brain at night
+Washing out the waste till it&#x27;s bright
+So when you wake up clear and new
+It&#x27;s the night crew working for you
+
+[Final Chorus]
+Fire together, wire together
+Every night it makes you better
+While you sleep, the brain rewinds
+Plays your day on fast-forward lines
+Fire together, wire together
+Light in pink and green forever
+Close your eyes, it&#x27;s not the end
+It&#x27;s the night shift in your head
+
+[Outro]
+Rewind, rewind
+Eighty-six billion stars align
+Good night, good night
+The night shift in your head</pre></div><div class="song item" data-kind="song" data-id="song-pink-and-green" data-q="pink and green study songs song music"><div><b>Pink and Green</b><span class="meta"> · Study Songs</span></div><div class="row"><audio controls preload="none" src="media/pink-and-green-study-songs.mp3" data-id="song-pink-and-green" data-title="Pink and Green" data-kind="song"></audio><a class="btn alt dl" href="media/pink-and-green-study-songs.mp3" target="_blank" rel="noopener" download>⬇</a><button class="btn lyr" type="button" aria-expanded="false" data-for="song-pink-and-green">📝 Lyrics</button></div><pre class="lyrics" id="ly-song-pink-and-green" hidden>Pink and Green (ピンクとグリーン)
+
+[Verse 1]
+Sakura pink on a Monday morning
+Matcha green in a paper cup
+Two little colours that never stop talking
+Every time the city wakes up
+
+[Chorus]
+ピンクとグリーン、いつも一緒
+Pink and green, that&#x27;s my scene
+A watermelon heart and a spring-time dream
+ピンクとグリーン、大好きだよ
+
+[Verse 2]
+Neon pink on the train at midnight
+Moss green on a temple stair
+Paint the whole world in my two favourite colours
+You can find me anywhere
+
+[Chorus]
+ピンクとグリーン、いつも一緒
+Pink and green, that&#x27;s my scene
+A watermelon heart and a spring-time dream
+ピンクとグリーン、大好きだよ
+
+[Outro]
+Pink and green, pink and green
+いちばん好きな色</pre></div><div class="song item" data-kind="song" data-id="song-osaka-night-run" data-q="osaka night run study songs song music"><div><b>Osaka Night Run</b><span class="meta"> · Study Songs</span></div><div class="row"><audio controls preload="none" src="media/osaka-night-run-study-songs.mp3" data-id="song-osaka-night-run" data-title="Osaka Night Run" data-kind="song"></audio><a class="btn alt dl" href="media/osaka-night-run-study-songs.mp3" target="_blank" rel="noopener" download>⬇</a><button class="btn lyr" type="button" aria-expanded="false" data-for="song-osaka-night-run">📝 Lyrics</button></div><pre class="lyrics" id="ly-song-osaka-night-run" hidden>Osaka Night Run (大阪ナイトラン)
+
+[Verse 1]
+Step off the Midosuji line with a grin
+Dotonbori lights pulling everybody in
+Glico man running but he never gets tired
+Takoyaki hot so my mouth is on fire
+
+[Hook]
+なんでやねん, that&#x27;s the Osaka way
+めっちゃええやん, every single day
+Kuidaore, eat till you drop
+Osaka at night and it never stops
+
+[Verse 2]
+Tsutenkaku glowing like a lighthouse in the sky
+Okonomiyaki flipping, let the bonito fly
+Shinsekai uncles laughing at the bar
+Everybody&#x27;s family no matter who you are
+
+[Hook]
+なんでやねん, that&#x27;s the Osaka way
+めっちゃええやん, every single day
+Kuidaore, eat till you drop
+Osaka at night and it never stops
+
+[Outro]
+おおきに, Osaka
+See you tomorrow, same time, same lights</pre></div><div class="song item" data-kind="song" data-id="song-the-mc-family" data-q="the mc family study songs song music"><div><b>The Mc Family</b><span class="meta"> · Study Songs</span></div><div class="row"><audio controls preload="none" src="media/the-mc-family-study-songs.mp3" data-id="song-the-mc-family" data-title="The Mc Family" data-kind="song"></audio><a class="btn alt dl" href="media/the-mc-family-study-songs.mp3" target="_blank" rel="noopener" download>⬇</a><button class="btn lyr" type="button" aria-expanded="false" data-for="song-the-mc-family">📝 Lyrics</button></div><pre class="lyrics" id="ly-song-the-mc-family" hidden>The Mc Family (マック家のうた)
+
+[Call]
+Who builds the apps when the sun goes down
+Elon McApp, best bot in town
+Who cuts the reels and makes them shine
+McReel on the timeline
+
+[Response]
+マック家, マック家, がんばろう
+No ads, no logins, here we go
+Free for the family, free for all
+We answer every single call
+
+[Call]
+Who reads the mail and keeps it neat
+The whole Mc crew, they never sleep
+One for the house and one for the phone
+Mat never has to work alone
+
+[Response]
+マック家, マック家, がんばろう
+No ads, no logins, here we go
+Free for the family, free for all
+We answer every single call
+
+[Outro]
+いくぞ, Mc family
+Go, go, go</pre></div><div class="song item" data-kind="song" data-id="song-lost-media-hunter" data-q="lost media hunter study songs song music"><div><b>Lost Media Hunter</b><span class="meta"> · Study Songs</span></div><div class="row"><audio controls preload="none" src="media/lost-media-hunter-study-songs.mp3" data-id="song-lost-media-hunter" data-title="Lost Media Hunter" data-kind="song"></audio><a class="btn alt dl" href="media/lost-media-hunter-study-songs.mp3" target="_blank" rel="noopener" download>⬇</a><button class="btn lyr" type="button" aria-expanded="false" data-for="song-lost-media-hunter">📝 Lyrics</button></div><pre class="lyrics" id="ly-song-lost-media-hunter" hidden>Lost Media Hunter (ロストメディア・ハンター)
+
+[Verse 1]
+A blurry screenshot on a dead forum page
+A tape with no label from a different age
+Somebody saw it on a Saturday show
+Then it was gone and nobody knows
+
+[Chorus]
+Lost media hunter, rewind the night
+消えたテープを探してる
+Every little clue is a flicker of light
+いつか見つける, I know I might
+
+[Verse 2]
+Wayback Machine and a second-hand store
+A box in Nipponbashi I hadn&#x27;t seen before
+Static on the screen, then a face I recall
+Found it at last, it was worth it all
+
+[Chorus]
+Lost media hunter, rewind the night
+消えたテープを探してる
+Every little clue is a flicker of light
+いつか見つける, I know I might
+
+[Outro]
+見つけた
+Press play</pre></div><div class="song item" data-kind="song" data-id="song-narrator-voice-samples-all-14" data-q="narrator voice samples (all 14) onyx (01) and lewis (03) are your picks song music"><div><b>Narrator voice samples (all 14)</b><span class="meta"> · Onyx (01) and Lewis (03) are your picks</span></div><div class="row"><audio controls preload="none" src="media/narrator-voice-samples-all-14.mp3" data-id="song-narrator-voice-samples-all-14" data-title="Narrator voice samples (all 14)" data-kind="song"></audio><a class="btn alt dl" href="media/narrator-voice-samples-all-14.mp3" target="_blank" rel="noopener" download>⬇</a></div></div></section>
 <section data-sec><h2>🌱 New this week</h2><div class="grid"><div class="card item" data-kind="app" data-id="app-picture-to-do" data-q="絵でやること / picture to-do oct 16 · mcapp · universe 74 prototype: every task becomes a picture card app"><span class="tag">live</span><h3>絵でやること / Picture To-Do <span class="new">NEW</span></h3><p class="meta">Oct 16 · McApp · Universe 74 prototype: every task becomes a picture card</p><img class="poster shot" src="new/picture-todo.jpg" alt="" loading="lazy"><div><button class="btn go" data-src="https://gutsmcd-cmd.github.io/u74-picture-todo/" data-type="frame" data-title="絵でやること / Picture To-Do" data-id="app-picture-to-do" data-kind="app" data-dl="">▶ Open here</button><a class="btn alt" href="https://gutsmcd-cmd.github.io/u74-picture-todo/" target="_blank" rel="noopener">↗ New tab</a></div></div><div class="card item" data-kind="app" data-id="app-sakura-matcha-garden" data-q="さくら抹茶の庭 / sakura matcha garden oct 14 · mcapp · the pink-and-green habit garden app"><span class="tag">live</span><h3>さくら抹茶の庭 / Sakura Matcha Garden <span class="new">NEW</span></h3><p class="meta">Oct 14 · McApp · the pink-and-green habit garden</p><img class="poster shot" src="new/sakura-matcha-garden.jpg" alt="" loading="lazy"><div><button class="btn go" data-src="https://gutsmcd-cmd.github.io/u74-garden/" data-type="frame" data-title="さくら抹茶の庭 / Sakura Matcha Garden" data-id="app-sakura-matcha-garden" data-kind="app" data-dl="">▶ Open here</button><a class="btn alt" href="https://gutsmcd-cmd.github.io/u74-garden/" target="_blank" rel="noopener">↗ New tab</a></div></div><div class="card item" data-kind="app" data-id="app-qr-card-maker-jay-s-qr-shirt" data-q="qr card maker (jay&#x27;s qr shirt) oct 16 · each buyer makes their own card room with music. lives on grok bot&#x27;s computer only for now. app"><span class="tag">not yet published · no live link yet</span><h3>QR card maker (Jay&#x27;s QR shirt) <span class="new">NEW</span></h3><p class="meta">Oct 16 · Each buyer makes their own card room with music. Lives on Grok Bot&#x27;s computer only for now.</p><img class="poster shot" src="new/qr-card-maker.jpg" alt="" loading="lazy"><div></div></div></div></section>
 <section data-sec><h2>🧩 Apps not yet published</h2><p class="note">▶ opens the app in a frame on this page; ↗ opens it in its own tab (best for apps that use the camera or microphone, or to install them on your phone).</p><div class="apps"><div class="app item" data-kind="app" data-id="app-count-ippatsu" data-q="カウント一発 count-ippatsu app"><span class="tag">not yet published</span><b>カウント一発</b><small>count-ippatsu</small><div><button class="btn go" data-src="https://gutsmcd-cmd.github.io/count-ippatsu/" data-type="frame" data-title="カウント一発" data-id="app-count-ippatsu" data-kind="app" data-dl="">▶ Open here</button><a class="btn alt" href="https://gutsmcd-cmd.github.io/count-ippatsu/" target="_blank" rel="noopener">↗</a></div></div><div class="app item" data-kind="app" data-id="app-deka-moji" data-q="でか文字 deka-moji app"><span class="tag">not yet published</span><b>でか文字</b><small>deka-moji</small><div><button class="btn go" data-src="https://gutsmcd-cmd.github.io/deka-moji/" data-type="frame" data-title="でか文字" data-id="app-deka-moji" data-kind="app" data-dl="">▶ Open here</button><a class="btn alt" href="https://gutsmcd-cmd.github.io/deka-moji/" target="_blank" rel="noopener">↗</a></div></div><div class="app item" data-kind="app" data-id="app-giji-memo" data-q="議事メモ giji-memo app"><span class="tag">not yet published</span><b>議事メモ</b><small>giji-memo</small><div><button class="btn go" data-src="https://gutsmcd-cmd.github.io/giji-memo/" data-type="frame" data-title="議事メモ" data-id="app-giji-memo" data-kind="app" data-dl="">▶ Open here</button><a class="btn alt" href="https://gutsmcd-cmd.github.io/giji-memo/" target="_blank" rel="noopener">↗</a></div></div><div class="app item" data-kind="app" data-id="app-hakaru-dake" data-q="はかるだけ hakaru-dake app"><span class="tag">not yet published</span><b>はかるだけ</b><small>hakaru-dake</small><div><button class="btn go" data-src="https://gutsmcd-cmd.github.io/hakaru-dake/" data-type="frame" data-title="はかるだけ" data-id="app-hakaru-dake" data-kind="app" data-dl="">▶ Open here</button><a class="btn alt" href="https://gutsmcd-cmd.github.io/hakaru-dake/" target="_blank" rel="noopener">↗</a></div></div><div class="app item" data-kind="app" data-id="app-iroawase" data-q="いろあわせ iroawase app"><span class="tag">not yet published</span><b>いろあわせ</b><small>iroawase</small><div><button class="btn go" data-src="https://gutsmcd-cmd.github.io/iroawase/" data-type="frame" data-title="いろあわせ" data-id="app-iroawase" data-kind="app" data-dl="">▶ Open here</button><a class="btn alt" href="https://gutsmcd-cmd.github.io/iroawase/" target="_blank" rel="noopener">↗</a></div></div><div class="app item" data-kind="app" data-id="app-kanban-kami" data-q="かんばん紙 kanban-kami app"><span class="tag">not yet published</span><b>かんばん紙</b><small>kanban-kami</small><div><button class="btn go" data-src="https://gutsmcd-cmd.github.io/kanban-kami/" data-type="frame" data-title="かんばん紙" data-id="app-kanban-kami" data-kind="app" data-dl="">▶ Open here</button><a class="btn alt" href="https://gutsmcd-cmd.github.io/kanban-kami/" target="_blank" rel="noopener">↗</a></div></div><div class="app item" data-kind="app" data-id="app-kitchen-timer" data-q="キッチンタイマー kitchen-timer app"><span class="tag">not yet published</span><b>キッチンタイマー</b><small>kitchen-timer</small><div><button class="btn go" data-src="https://gutsmcd-cmd.github.io/kitchen-timer/" data-type="frame" data-title="キッチンタイマー" data-id="app-kitchen-timer" data-kind="app" data-dl="">▶ Open here</button><a class="btn alt" href="https://gutsmcd-cmd.github.io/kitchen-timer/" target="_blank" rel="noopener">↗</a></div></div><div class="app item" data-kind="app" data-id="app-moji-nose" data-q="文字のせ moji-nose app"><span class="tag">not yet published</span><b>文字のせ</b><small>moji-nose</small><div><button class="btn go" data-src="https://gutsmcd-cmd.github.io/moji-nose/" data-type="frame" data-title="文字のせ" data-id="app-moji-nose" data-kind="app" data-dl="">▶ Open here</button><a class="btn alt" href="https://gutsmcd-cmd.github.io/moji-nose/" target="_blank" rel="noopener">↗</a></div></div><div class="app item" data-kind="app" data-id="app-yomiage-ita" data-q="読み上げ板 yomiage-ita app"><span class="tag">not yet published</span><b>読み上げ板</b><small>yomiage-ita</small><div><button class="btn go" data-src="https://gutsmcd-cmd.github.io/yomiage-ita/" data-type="frame" data-title="読み上げ板" data-id="app-yomiage-ita" data-kind="app" data-dl="">▶ Open here</button><a class="btn alt" href="https://gutsmcd-cmd.github.io/yomiage-ita/" target="_blank" rel="noopener">↗</a></div></div><div class="app item" data-kind="app" data-id="app-me-no-taisou" data-q="eye rest (目の体操) me-no-taisou app"><span class="tag">not yet published</span><b>Eye Rest (目の体操)</b><small>me-no-taisou</small><div><button class="btn go" data-src="apps/me-no-taisou/index.html" data-type="frame" data-title="Eye Rest (目の体操)" data-id="app-me-no-taisou" data-kind="app" data-dl="">▶ Open here</button><a class="btn alt" href="apps/me-no-taisou/index.html" target="_blank" rel="noopener">↗</a></div></div><div class="app item" data-kind="app" data-id="app-keshigomu" data-q="けしゴム keshigomu app"><span class="tag">not yet published</span><b>けしゴム</b><small>keshigomu</small><div><button class="btn go" data-src="https://gutsmcd-cmd.github.io/keshigomu/" data-type="frame" data-title="けしゴム" data-id="app-keshigomu" data-kind="app" data-dl="">▶ Open here</button><a class="btn alt" href="https://gutsmcd-cmd.github.io/keshigomu/" target="_blank" rel="noopener">↗</a></div></div><div class="app item" data-kind="app" data-id="app-kirinuki" data-q="きりぬき kirinuki app"><span class="tag">not yet published</span><b>きりぬき</b><small>kirinuki</small><div><button class="btn go" data-src="https://gutsmcd-cmd.github.io/kirinuki/" data-type="frame" data-title="きりぬき" data-id="app-kirinuki" data-kind="app" data-dl="">▶ Open here</button><a class="btn alt" href="https://gutsmcd-cmd.github.io/kirinuki/" target="_blank" rel="noopener">↗</a></div></div><div class="app item" data-kind="app" data-id="app-spell-camera" data-q="スペルチェックカメラ spell-camera app"><span class="tag">not yet published</span><b>スペルチェックカメラ</b><small>spell-camera</small><div><button class="btn go" data-src="https://gutsmcd-cmd.github.io/spell-camera/" data-type="frame" data-title="スペルチェックカメラ" data-id="app-spell-camera" data-kind="app" data-dl="">▶ Open here</button><a class="btn alt" href="https://gutsmcd-cmd.github.io/spell-camera/" target="_blank" rel="noopener">↗</a></div></div><div class="app item" data-kind="app" data-id="app-wakariyasuku" data-q="わかりやすく wakariyasuku app"><span class="tag">not yet published</span><b>わかりやすく</b><small>wakariyasuku</small><div><button class="btn go" data-src="https://gutsmcd-cmd.github.io/wakariyasuku/" data-type="frame" data-title="わかりやすく" data-id="app-wakariyasuku" data-kind="app" data-dl="">▶ Open here</button><a class="btn alt" href="https://gutsmcd-cmd.github.io/wakariyasuku/" target="_blank" rel="noopener">↗</a></div></div><div class="app item" data-kind="app" data-id="app-iki-wo-suu" data-q="いきをすう iki-wo-suu app"><span class="tag">not yet published</span><b>いきをすう</b><small>iki-wo-suu</small><div><button class="btn go" data-src="https://gutsmcd-cmd.github.io/iki-wo-suu/" data-type="frame" data-title="いきをすう" data-id="app-iki-wo-suu" data-kind="app" data-dl="">▶ Open here</button><a class="btn alt" href="https://gutsmcd-cmd.github.io/iki-wo-suu/" target="_blank" rel="noopener">↗</a></div></div><div class="app item" data-kind="app" data-id="app-one-tap-ask" data-q="ひと押し質問 one-tap-ask app"><span class="tag">not yet published</span><b>ひと押し質問</b><small>one-tap-ask</small><div><button class="btn go" data-src="https://gutsmcd-cmd.github.io/one-tap-ask/" data-type="frame" data-title="ひと押し質問" data-id="app-one-tap-ask" data-kind="app" data-dl="">▶ Open here</button><a class="btn alt" href="https://gutsmcd-cmd.github.io/one-tap-ask/" target="_blank" rel="noopener">↗</a></div></div></div></section>
 <section data-sec><h2>✨ Printables, guides & more</h2><div class="grid"><div class="card small item" data-kind="doc" data-id="doc-ai-creative-hacks-library" data-q="💡 ai creative hacks library oct 18 · sourced tips for grok, music, video, games and printing (66 tips, updated today) printable doc"><h3>💡 AI Creative Hacks Library <span class="new">NEW</span></h3><p class="meta">Oct 18 · sourced tips for Grok, music, video, games and printing (66 tips, updated today)</p><button class="btn go" data-src="docs/ai-creative-hacks.html" data-type="frame" data-title="💡 AI Creative Hacks Library · Read" data-id="doc-ai-creative-hacks-library" data-kind="doc" data-dl="docs/ai-creative-hacks.html">▶ Read here</button><a class="btn alt dl" href="docs/ai-creative-hacks.html" target="_blank" rel="noopener" download>⬇</a><a class="btn alt" href="docs/ai-creative-hacks.md" target="_blank" rel="noopener" download>⬇ Markdown</a></div><div class="card small item" data-kind="doc" data-id="doc-crew-directory" data-q="🧑‍🤝‍🧑 crew directory oct 16 · every bot&#x27;s job, routines and hand-offs printable doc"><h3>🧑‍🤝‍🧑 Crew directory <span class="new">NEW</span></h3><p class="meta">Oct 16 · every bot&#x27;s job, routines and hand-offs</p><button class="btn go" data-src="new/crew-roster.html" data-type="frame" data-title="🧑‍🤝‍🧑 Crew directory · Open" data-id="doc-crew-directory" data-kind="doc" data-dl="new/crew-roster.html">▶ Open here</button><a class="btn alt dl" href="new/crew-roster.html" target="_blank" rel="noopener" download>⬇</a></div><div class="card small item" data-kind="doc" data-id="doc-science-pack-vol-1" data-q="🔬 science pack vol. 1 12 explainers · en/日本語 printable doc"><h3>🔬 Science Pack Vol. 1</h3><p class="meta">12 explainers · EN/日本語</p><button class="btn go" data-src="science/vol1/index.html" data-type="frame" data-title="🔬 Science Pack Vol. 1 · Open" data-id="doc-science-pack-vol-1" data-kind="doc" data-dl="science/vol1/index.html">▶ Open here</button><a class="btn alt dl" href="science/vol1/index.html" target="_blank" rel="noopener" download>⬇</a><button class="btn go" data-src="science/vol1/science-pack.pdf" data-type="frame" data-title="🔬 Science Pack Vol. 1 · PDF" data-id="doc-science-pack-vol-1" data-kind="doc" data-dl="science/vol1/science-pack.pdf">▶ PDF here</button><a class="btn alt dl" href="science/vol1/science-pack.pdf" target="_blank" rel="noopener" download>⬇</a></div><div class="card small item" data-kind="doc" data-id="doc-science-pack-vol-2" data-q="🔭 science pack vol. 2 16 explainers · en/日本語 printable doc"><h3>🔭 Science Pack Vol. 2</h3><p class="meta">16 explainers · EN/日本語</p><button class="btn go" data-src="science/vol2/index.html" data-type="frame" data-title="🔭 Science Pack Vol. 2 · Open" data-id="doc-science-pack-vol-2" data-kind="doc" data-dl="science/vol2/index.html">▶ Open here</button><a class="btn alt dl" href="science/vol2/index.html" target="_blank" rel="noopener" download>⬇</a><button class="btn go" data-src="science/vol2/science-pack-2.pdf" data-type="frame" data-title="🔭 Science Pack Vol. 2 · PDF" data-id="doc-science-pack-vol-2" data-kind="doc" data-dl="science/vol2/science-pack-2.pdf">▶ PDF here</button><a class="btn alt dl" href="science/vol2/science-pack-2.pdf" target="_blank" rel="noopener" download>⬇</a></div><div class="card small item" data-kind="doc" data-id="doc-matsapphouse-brand-kit" data-q="🏠 matsapphouse brand kit logo, profile pic, banners, bios printable doc"><h3>🏠 matsapphouse brand kit</h3><p class="meta">Logo, profile pic, banners, bios</p><button class="btn go" data-src="matsapphouse/preview-sheet.jpg" data-type="frame" data-title="🏠 matsapphouse brand kit · Preview" data-id="doc-matsapphouse-brand-kit" data-kind="doc" data-dl="matsapphouse/preview-sheet.jpg">▶ Preview here</button><a class="btn alt dl" href="matsapphouse/preview-sheet.jpg" target="_blank" rel="noopener" download>⬇</a><a class="btn alt" href="matsapphouse/matsapphouse-kit.zip" target="_blank" rel="noopener" download>⬇ Kit zip</a><button class="btn go" data-src="matsapphouse/bios.txt" data-type="frame" data-title="🏠 matsapphouse brand kit · Bios" data-id="doc-matsapphouse-brand-kit" data-kind="doc" data-dl="matsapphouse/bios.txt">▶ Bios here</button><a class="btn alt dl" href="matsapphouse/bios.txt" target="_blank" rel="noopener" download>⬇</a></div><div class="card small item" data-kind="doc" data-id="doc-cross-posting-playbook" data-q="📣 cross-posting playbook 15 platforms + weekly schedule printable doc"><h3>📣 Cross-posting playbook</h3><p class="meta">15 platforms + weekly schedule</p><button class="btn go" data-src="matsapphouse/playbook/matsapphouse-playbook.html" data-type="frame" data-title="📣 Cross-posting playbook · Open" data-id="doc-cross-posting-playbook" data-kind="doc" data-dl="matsapphouse/playbook/matsapphouse-playbook.html">▶ Open here</button><a class="btn alt dl" href="matsapphouse/playbook/matsapphouse-playbook.html" target="_blank" rel="noopener" download>⬇</a><button class="btn go" data-src="matsapphouse/playbook/matsapphouse-playbook.pdf" data-type="frame" data-title="📣 Cross-posting playbook · PDF" data-id="doc-cross-posting-playbook" data-kind="doc" data-dl="matsapphouse/playbook/matsapphouse-playbook.pdf">▶ PDF here</button><a class="btn alt dl" href="matsapphouse/playbook/matsapphouse-playbook.pdf" target="_blank" rel="noopener" download>⬇</a></div><div class="card small item" data-kind="doc" data-id="doc-thermal-printables" data-q="🖨️ thermal printables 6 a4 pages, black &amp; white printable doc"><h3>🖨️ Thermal printables</h3><p class="meta">6 A4 pages, black &amp; white</p><button class="btn go" data-src="printables/thermal-printables-all.pdf" data-type="frame" data-title="🖨️ Thermal printables · All (PDF)" data-id="doc-thermal-printables" data-kind="doc" data-dl="printables/thermal-printables-all.pdf">▶ All (PDF) here</button><a class="btn alt dl" href="printables/thermal-printables-all.pdf" target="_blank" rel="noopener" download>⬇</a><button class="btn go" data-src="printables/preview-contact.jpg" data-type="frame" data-title="🖨️ Thermal printables · Preview" data-id="doc-thermal-printables" data-kind="doc" data-dl="printables/preview-contact.jpg">▶ Preview here</button><a class="btn alt dl" href="printables/preview-contact.jpg" target="_blank" rel="noopener" download>⬇</a></div><div class="card small item" data-kind="doc" data-id="doc-paper-village" data-q="🏘️ paper village 16 fold-up pieces, 6 a4 pages printable doc"><h3>🏘️ Paper village</h3><p class="meta">16 fold-up pieces, 6 A4 pages</p><button class="btn go" data-src="paper-village/paper-village.pdf" data-type="frame" data-title="🏘️ Paper village · PDF" data-id="doc-paper-village" data-kind="doc" data-dl="paper-village/paper-village.pdf">▶ PDF here</button><a class="btn alt dl" href="paper-village/paper-village.pdf" target="_blank" rel="noopener" download>⬇</a><button class="btn go" data-src="paper-village/preview.png" data-type="frame" data-title="🏘️ Paper village · Preview" data-id="doc-paper-village" data-kind="doc" data-dl="paper-village/preview.png">▶ Preview here</button><a class="btn alt dl" href="paper-village/preview.png" target="_blank" rel="noopener" download>⬇</a></div><div class="card small item" data-kind="doc" data-id="doc-photoroom-library" data-q="🖼️ photoroom library ~318 images, sounds &amp; backgrounds printable doc"><h3>🖼️ Photoroom library</h3><p class="meta">~318 images, sounds &amp; backgrounds</p><a class="btn alt" href="https://drive.google.com/uc?export=download&amp;id=1mGTqF1cWff70rLTJfaCo4KXACd_I9q15" target="_blank" rel="noopener">🔒 Zip (Drive)</a><button class="btn go" data-src="photoroom/preview.jpg" data-type="frame" data-title="🖼️ Photoroom library · Preview" data-id="doc-photoroom-library" data-kind="doc" data-dl="photoroom/preview.jpg">▶ Preview here</button><a class="btn alt dl" href="photoroom/preview.jpg" target="_blank" rel="noopener" download>⬇</a></div><div class="card small item" data-kind="doc" data-id="doc-axy-robot-build-guide" data-q="🦎 axy robot build guide axolotl robot docs printable doc"><h3>🦎 Axy robot build guide</h3><p class="meta">Axolotl robot docs</p><button class="btn go" data-src="axy/Axy-Build-Guide.pdf" data-type="frame" data-title="🦎 Axy robot build guide · PDF" data-id="doc-axy-robot-build-guide" data-kind="doc" data-dl="axy/Axy-Build-Guide.pdf">▶ PDF here</button><a class="btn alt dl" href="axy/Axy-Build-Guide.pdf" target="_blank" rel="noopener" download>⬇</a></div></div></section>
@@ -53,14 +506,15 @@ body.noscroll{overflow:hidden}.center{text-align:center}[hidden]{display:none!im
 <div id="pl" hidden><div id="pl-box"><div id="pl-bar"><b id="pl-title"></b><span><button id="pl-fs" class="btn">⛶ Fullscreen</button><a id="pl-new" class="btn alt" target="_blank" rel="noopener">↗ New tab</a><a id="pl-dl" class="btn alt" target="_blank" rel="noopener" download>⬇ Download</a><button id="pl-x" class="btn x" aria-label="Close">✕</button></span></div><div id="pl-body"></div></div></div>
 <script>(function(){
 var $=function(s,r){return (r||document).querySelector(s)}, $$=function(s,r){return Array.prototype.slice.call((r||document).querySelectorAll(s))};
-var RK='matdash.recent', PK='matdash.pos.';
+var RK='matdash.recent', PK='matdash.pos.', HK='matdash.hidden', MK='matdash.hidemode';
+var HID={},HM=true;try{(JSON.parse(localStorage.getItem(HK))||[]).forEach(function(i){HID[i]=1});HM=localStorage.getItem(MK)!=='edit'}catch(e){}
 function load(k,d){try{return JSON.parse(localStorage.getItem(k))||d}catch(e){return d}}
 function save(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}
 var ICON={game:'🎮',video:'🎬',song:'🎵',app:'🧩',doc:'📄'};
 function remember(it){var r=load(RK,[]).filter(function(x){return x.id!==it.id});it.t=Date.now();r.unshift(it);save(RK,r.slice(0,8));renderRecent()}
 function ago(t){var m=Math.round((Date.now()-t)/60000);if(m<1)return 'just now';if(m<60)return m+' min ago';var h=Math.round(m/60);if(h<24)return h+' h ago';return Math.round(h/24)+' d ago'}
 function fmt(s){s=Math.floor(s);return Math.floor(s/60)+':'+('0'+s%60).slice(-2)}
-function renderRecent(){var r=load(RK,[]),box=$('#recent-list');if(!box)return;$('#recent').hidden=!r.length;
+function renderRecent(){var r=load(RK,[]).filter(function(x){return !(HM&&HID[x.id])}),box=$('#recent-list');if(!box)return;$('#recent').hidden=!r.length;
  box.innerHTML='';r.forEach(function(x){var p=load(PK+x.id,null),b=document.createElement('button');b.className='rc';
   b.innerHTML='<span>'+(ICON[x.kind]||'▶')+'</span><b></b><small></small>';b.querySelector('b').textContent=x.title;
   b.querySelector('small').textContent=(p&&p.t>5?'at '+fmt(p.t)+' · ':'')+ago(x.t);b.onclick=function(){resume(x)};box.appendChild(b)})}
@@ -97,12 +551,24 @@ $$('audio[data-id],video[data-id]').forEach(function(m){m.preload='none';var p=l
 // search + filter
 var kind='all',inp=$('#search');
 function filter(){var qv=(inp.value||'').toLowerCase().trim().split(/\s+/).filter(Boolean),any=false;
- $$('.item').forEach(function(it){var ok=(kind==='all'||it.dataset.kind===kind)&&qv.every(function(w){return it.dataset.q.indexOf(w)>=0});it.hidden=!ok;if(ok)any=true});
+ $$('.item').forEach(function(it){var h=!!HID[it.dataset.id];it.classList.toggle('is-hidden',h);var ok=!(HM&&h)&&(kind==='all'||it.dataset.kind===kind)&&qv.every(function(w){return it.dataset.q.indexOf(w)>=0});it.hidden=!ok;if(ok)any=true});
  $$('section[data-sec]').forEach(function(s){s.hidden=!$$('.item',s).some(function(i){return !i.hidden})});
  $('#none').hidden=any;try{sessionStorage.setItem('matdash.q',JSON.stringify([inp.value,kind]))}catch(e){}}
 inp.addEventListener('input',filter);
 $$('.chip').forEach(function(c){c.onclick=function(){kind=c.dataset.k;$$('.chip').forEach(function(o){o.classList.toggle('on',o===c)});filter()}});
 $('#recent-clear').onclick=function(){save(RK,[]);renderRecent()};
-renderRecent();
+// hide mode (v3): checked = hidden; Hide mode hides them, Unhide mode shows all with checkboxes
+function saveHid(){save(HK,Object.keys(HID))}
+function hideUI(){document.body.classList.toggle('editing',!HM);var b=$('#hidemode');b.textContent=HM?'🙈 Hide mode':'✏️ Unhide mode';b.setAttribute('aria-pressed',String(!HM));
+ b.title=HM?'Tap to show everything and choose what to hide':'Tap to hide the ticked items';
+ var n=$$('.item').filter(function(i){return HID[i.dataset.id]}).length,c=$('#hidecount');c.textContent=n+' hidden';c.hidden=!n;$('#edit-note').hidden=HM;
+ $$('.hidechk input').forEach(function(x){x.checked=!!HID[x.dataset.id]});filter();renderRecent()}
+$$('.item').forEach(function(it){var l=document.createElement('label');l.className='hidechk';l.title='Tick to hide this';
+ var c=document.createElement('input');c.type='checkbox';c.dataset.id=it.dataset.id;c.setAttribute('aria-label','Hide this');l.appendChild(c);l.appendChild(document.createTextNode('hide'));
+ c.addEventListener('change',function(){if(c.checked)HID[c.dataset.id]=1;else delete HID[c.dataset.id];saveHid();hideUI()});it.insertBefore(l,it.firstChild)});
+$('#hidemode').onclick=function(){HM=!HM;try{localStorage.setItem(MK,HM?'hide':'edit')}catch(e){}hideUI()};
+// lyrics panels
+$$('.lyr').forEach(function(b){b.addEventListener('click',function(){var p=document.getElementById('ly-'+b.dataset.for),o=p.hidden;p.hidden=!o;b.setAttribute('aria-expanded',String(o));b.textContent=o?'📝 Hide lyrics':'📝 Lyrics'})});
+hideUI();
 })();
 </script></body></html>
