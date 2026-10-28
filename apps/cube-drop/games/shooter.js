@@ -12,6 +12,8 @@
     controls: [['Arrows or WASD', 'Fly'], ['Space (hold)', 'Fire'], ['Shift or X', 'Lumi Shield (recharges)'], ['Esc', 'Pause']],
     helper: 'Lumi flies wing and auto-fires at the nearest virus. Shift/X throws up a shield bubble.',
     music: 'shoot',
+    touchHelp: [['Pad (any direction)', 'Fly'], ['A (hold)', 'Fire'], ['B', 'Lumi Shield']],
+    medals: [8000, 14000, 20000],
     create
   });
 

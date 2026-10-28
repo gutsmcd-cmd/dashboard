@@ -12,6 +12,8 @@
     controls: [['← → or A D', 'Move'], ['↑ or W', 'Jump'], ['↓ or S (hold)', 'Block'], ['Space', 'Punch (fast)'], ['Shift or X', 'Kick (strong)'], ['C', 'Lumi Beam (when the meter is full)']],
     helper: 'Lumi warns you before KRASH\'s big smash and charges your beam.',
     music: 'fight',
+    touchHelp: [['◀ ▶', 'Walk'], ['▲', 'Jump'], ['▼ (hold)', 'Block'], ['A / B', 'Punch / Kick'], ['C', 'Lumi Beam (when the meter is full)']],
+    medals: [4000, 7000, 10000],
     create
   });
 

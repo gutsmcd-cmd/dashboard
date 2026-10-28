@@ -12,6 +12,8 @@
     controls: [['← → or A D', 'Run'], ['Space / ↑ / W', 'Jump (hold for higher)'], ['Jump again mid-air', 'Lumi Boost (double jump)'], ['Esc', 'Pause']],
     helper: 'Lumi flies with you, gives a double-jump boost, and calls out tips along the way.',
     music: 'plat',
+    touchHelp: [['◀ ▶', 'Run'], ['A or ▲', 'Jump (hold for higher)'], ['A again mid-air', 'Lumi Boost (double jump)']],
+    medals: [4000, 7000, 10000],
     create
   });
 

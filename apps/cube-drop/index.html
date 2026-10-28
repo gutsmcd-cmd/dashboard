@@ -2,27 +2,64 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<title>Cube Drop — Kernelport</title>
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cube Drop: Kernelport</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+<meta name="theme-color" content="#07020f">
+<meta name="apple-mobile-web-app-capable" content="yes">
 <style>
-  html, body { margin: 0; height: 100%; background: #07020f; overflow: hidden; }
-  body { display: flex; align-items: center; justify-content: center; }
-  canvas { display: block; background: #07020f; image-rendering: auto; box-shadow: 0 0 40px rgba(255,79,184,0.25); }
+  html, body { margin: 0; height: 100%; background: #07020f; overflow: hidden; touch-action: none; -webkit-user-select: none; user-select: none; -webkit-tap-highlight-color: transparent; }
+  body { display: flex; align-items: center; justify-content: center; background: radial-gradient(ellipse at center, #1a0833 0%, #07020f 70%); }
+  canvas { display: block; background: #07020f; box-shadow: 0 0 40px rgba(255,79,184,0.3), 0 0 2px #39ff8f; touch-action: none; }
   noscript { color: #fff; font-family: sans-serif; }
+  #ui { position: fixed; inset: 0; pointer-events: none; font-family: "Trebuchet MS", Verdana, sans-serif; }
+  #ui button, #dpad { pointer-events: auto; touch-action: none; }
+  .tb { position: absolute; top: calc(8px + env(safe-area-inset-top)); width: 44px; height: 44px; border-radius: 12px; border: 2px solid #ff4fb8; background: rgba(20,8,40,0.6); color: #fff; font-size: 18px; opacity: 0.55; cursor: pointer; }
+  .tb:hover { opacity: 1; }
+  #b-full { right: 10px; } #b-sound { right: 62px; } #b-pause { right: 114px; display: none; }
+  body.touch #b-pause, body.ingame #b-pause { display: block; }
+  #dpad, #acts { display: none; }
+  body.touch #dpad, body.touch #acts { display: block; }
+  #dpad { position: absolute; left: calc(18px + env(safe-area-inset-left)); bottom: calc(18px + env(safe-area-inset-bottom)); width: 150px; height: 150px; border-radius: 50%;
+          background: radial-gradient(circle, rgba(57,255,143,0.10), rgba(20,8,40,0.55)); border: 2px solid rgba(57,255,143,0.6); opacity: 0.8; }
+  #dpad i { position: absolute; font-style: normal; color: #39ff8f; font-size: 22px; width: 40px; height: 40px; line-height: 40px; text-align: center; }
+  #dpad i.on { color: #fff; text-shadow: 0 0 10px #ff4fb8; }
+  #dpad .u { left: 55px; top: 4px; } #dpad .d { left: 55px; bottom: 4px; } #dpad .l { left: 4px; top: 55px; } #dpad .r { right: 4px; top: 55px; }
+  #dpad b { position: absolute; left: 50px; top: 50px; width: 50px; height: 50px; border-radius: 50%; background: radial-gradient(circle at 35% 35%, #ffc2e6, #ff4fb8 60%, #8a1a5c); box-shadow: 0 0 14px #ff4fb8; }
+  #acts { position: absolute; right: calc(16px + env(safe-area-inset-right)); bottom: calc(16px + env(safe-area-inset-bottom)); width: 210px; height: 170px; }
+  .ab { position: absolute; width: 82px; height: 82px; border-radius: 50%; border: 3px solid #fff; color: #fff; opacity: 0.8; font-weight: bold; }
+  .ab span { display: block; font-size: 24px; line-height: 24px; } .ab small { display: block; font-size: 10px; letter-spacing: 0.5px; }
+  .ab.on { transform: scale(0.92); opacity: 1; filter: brightness(1.4); }
+  .ab-a { right: 0; bottom: 0; background: radial-gradient(circle at 35% 35%, #ffc2e6, #ff2d95 60%, #7a1050); box-shadow: 0 0 16px #ff4fb8; }
+  .ab-b { right: 96px; bottom: 30px; background: radial-gradient(circle at 35% 35%, #c9ffe0, #1fbf68 60%, #0b5a30); box-shadow: 0 0 16px #39ff8f; }
+  .ab-c { right: 40px; bottom: 96px; width: 64px; height: 64px; background: radial-gradient(circle at 35% 35%, #d6fbff, #20b8d0 60%, #0b4a60); box-shadow: 0 0 14px #3ff0ff; }
+  body.touch:not(.portrait) .tb { width: 34px; height: 34px; font-size: 14px; opacity: 0.35; top: 4px; }
+  body.touch:not(.portrait) #b-sound { right: 50px; } body.touch:not(.portrait) #b-pause { right: 90px; }
+  body:not(.touch) .tb { top: auto; bottom: 8px; width: 32px; height: 32px; font-size: 13px; opacity: 0.3; }
+  body:not(.touch) #b-sound { right: 48px; } body:not(.touch) #b-pause { right: 86px; }
+  /* phone held upright: game on top, controls underneath */
+  body.portrait { align-items: flex-start; padding-top: calc(60px + env(safe-area-inset-top)); box-sizing: border-box; }
+  body.portrait #dpad { width: 170px; height: 170px; bottom: calc(40px + env(safe-area-inset-bottom)); opacity: 1; }
+  body.portrait #dpad .u { left: 65px; } body.portrait #dpad .d { left: 65px; } body.portrait #dpad .l, body.portrait #dpad .r { top: 65px; }
+  body.portrait #dpad b { left: 60px; top: 60px; }
+  body.portrait #acts { bottom: calc(40px + env(safe-area-inset-bottom)); }
+  body.portrait #acts .ab { opacity: 1; }
+  #rot { display: none; position: absolute; left: 0; right: 0; text-align: center; color: #e6d6ff; font-size: 13px; top: calc(70px + 56.25vw); }
+  body.portrait #rot { display: block; }
 </style>
 </head>
 <body>
 <canvas id="screen" width="960" height="540"></canvas>
+<div id="ui"><div id="rot">Tip: turn your phone sideways for a bigger screen</div></div>
 <noscript>Cube Drop needs JavaScript turned on.</noscript>
-<!-- Plain scripts (no modules) so the game runs straight from a double-clicked file. -->
 <script src="js/core.js"></script>
 <script src="js/audio.js"></script>
 <script src="js/city.js"></script>
-<!-- Mini-games register themselves into CD.games. Add new genres here. -->
 <script src="games/racer.js"></script>
 <script src="games/platformer.js"></script>
 <script src="games/shooter.js"></script>
 <script src="games/fighter.js"></script>
+<script src="games/catch.js"></script>
+<script src="js/touch.js"></script>
 <script src="js/main.js"></script>
 </body>
 </html>

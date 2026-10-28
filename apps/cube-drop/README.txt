@@ -1,5 +1,13 @@
-CUBE DROP — Kernelport            version 0.1 (private build, not published)
+CUBE DROP — Kernelport            version 1.0
 ========================================================================
+
+WHAT'S NEW IN 1.0
+  Plays on phones and tablets (on-screen pad and buttons, tap the menus), works with game
+  controllers, 5th cube Packet Catch, cubes unlock one by one, bronze/silver/gold medals,
+  best scores saved, Kernel Core Run (all 5 cubes in a row), a How to Play guide, screen
+  shake, confetti and a CRT glow. Easy mode is the default and you can always retry.
+  Phone: tap to start. Pad = move, A/B/C = the actions shown on the buttons, ❚❚ = pause.
+  Controller: stick/d-pad move, A = action/select, B = second action/back, Start = pause.
 
 HOW TO PLAY
   Double-click index.html. It opens in Chrome or Firefox and works offline.

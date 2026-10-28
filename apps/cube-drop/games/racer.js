@@ -12,6 +12,8 @@
     controls: [['← → or A D', 'Steer'], ['↑ or W', 'Accelerate'], ['↓ or S', 'Brake'], ['Space', 'Lumi Turbo (limited charges)'], ['Esc', 'Pause']],
     helper: 'Lumi rides along with Turbo charges. Press Space for a big burst of speed.',
     music: 'race',
+    touchHelp: [['◀ ▶', 'Steer'], ['▲ / ▼', 'Accelerate / brake (Easy drives by itself)'], ['A', 'Lumi Turbo']],
+    medals: [4000, 7000, 10000],
     create
   });
 

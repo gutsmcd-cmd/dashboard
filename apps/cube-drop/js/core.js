@@ -31,6 +31,10 @@
     reset() { for (const k in keys) delete keys[k]; for (const k in pressed) delete pressed[k]; },
     // used by automated tests
     _press(code, held) { const a = [code, MAP[code]].filter(Boolean); a.forEach(x => { pressed[x] = true; if (held) keys[x] = true; }); },
+    // virtual sources (touch buttons, gamepad): action name -> held
+    vdown(a) { [a, MAP[a]].filter(Boolean).forEach(x => { if (!keys[x]) pressed[x] = true; keys[x] = true; }); },
+    vup(a) { [a, MAP[a]].filter(Boolean).forEach(x => delete keys[x]); },
+    tap(a) { pressed[a] = true; },
     _release(code) { const a = [code, MAP[code]].filter(Boolean); a.forEach(x => delete keys[x]); }
   };
   addEventListener('keydown', e => {
