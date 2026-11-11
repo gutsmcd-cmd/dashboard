@@ -1,0 +1,911 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Animal Senses Explorer / 動物の感覚探検</title>
+<meta name="description" content="Offline English/Japanese guide to how selected animals sense the world, with human comparisons and a short quiz. No network required.">
+<style>
+:root {
+  --bg: #f4f1ec;
+  --bg-2: #eef3ee;
+  --card: #fffdf9;
+  --ink: #1e2a24;
+  --muted: #4a5850;
+  --pink: #8e4d5c;
+  --pink-soft: #f3e6e9;
+  --green: #3c6a51;
+  --green-soft: #e3eee7;
+  --line: #d7cfc6;
+  --focus: #21543a;
+  --shadow: 0 8px 24px rgba(30, 42, 36, 0.07);
+  --radius: 16px;
+  --max: 920px;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+html, body { margin: 0; padding: 0; background: linear-gradient(180deg, var(--bg) 0%, var(--bg-2) 100%); color: var(--ink); }
+body {
+  font: 17px/1.55 system-ui, "Segoe UI", "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Noto Sans JP", "Yu Gothic", sans-serif;
+  min-height: 100vh;
+}
+:focus { outline: none; }
+:focus-visible {
+  outline: 3px solid var(--focus);
+  outline-offset: 3px;
+}
+.skip {
+  position: absolute; left: 12px; top: -48px; background: var(--ink); color: #fff;
+  padding: 8px 12px; border-radius: 8px; z-index: 20;
+}
+.skip:focus { top: 12px; }
+header.app {
+  position: sticky; top: 0; z-index: 2;
+  background: rgba(244, 241, 236, 0.94);
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid var(--line);
+}
+.wrap { width: min(var(--max), calc(100% - 32px)); margin: 0 auto; }
+header.app .wrap { display: flex; flex-wrap: wrap; gap: 12px 18px; align-items: center; padding: 12px 0; }
+h1 { font-size: 1.15rem; margin: 0; letter-spacing: -0.02em; }
+h1 span { display: block; color: var(--muted); font-weight: 500; font-size: 0.78rem; }
+.tools { margin-left: auto; display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+.seg, .lang {
+  display: inline-flex; background: #fff; border: 1px solid var(--line); border-radius: 999px; padding: 3px;
+}
+.seg button, .lang button {
+  appearance: none; border: 0; background: transparent; color: var(--ink);
+  font: inherit; font-size: 0.9rem; padding: 8px 14px; border-radius: 999px; cursor: pointer; min-height: 40px;
+}
+.seg button[aria-pressed="true"], .lang button[aria-pressed="true"] {
+  background: var(--green); color: #fff;
+}
+main { padding: 20px 0 72px; }
+.lede { margin: 0 0 18px; color: var(--muted); max-width: 46rem; }
+.note {
+  background: var(--green-soft); border-left: 4px solid var(--green);
+  padding: 10px 14px; border-radius: 0 12px 12px 0; margin: 0 0 18px; color: var(--ink); font-size: 0.95rem;
+}
+.filters { display: flex; flex-wrap: wrap; gap: 8px; margin: 0 0 18px; }
+.filters button {
+  appearance: none; border: 1px solid var(--line); background: #fff; color: var(--ink);
+  font: inherit; font-size: 0.88rem; padding: 8px 12px; border-radius: 999px; cursor: pointer; min-height: 40px;
+}
+.filters button[aria-pressed="true"] { background: var(--pink-soft); border-color: #e0c5cb; color: var(--pink); font-weight: 600; }
+.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 14px; }
+.card {
+  display: flex; flex-direction: column; align-items: flex-start; text-align: left;
+  background: var(--card); border: 1px solid var(--line); border-radius: var(--radius);
+  padding: 16px; box-shadow: var(--shadow); cursor: pointer; width: 100%; font: inherit; color: inherit;
+  min-height: 148px;
+}
+.card:hover { border-color: #c9b8ae; }
+.badge {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 42px; height: 42px; border-radius: 12px; font-weight: 700; margin-bottom: 10px;
+  background: var(--pink-soft); color: var(--pink);
+}
+.card h2 { font-size: 1.05rem; margin: 0 0 2px; }
+.latin { margin: 0 0 8px; color: var(--muted); font-size: 0.8rem; font-style: italic; }
+.tag {
+  display: inline-block; margin-top: auto; background: var(--green-soft); color: var(--green);
+  font-size: 0.8rem; font-weight: 600; padding: 4px 8px; border-radius: 999px;
+}
+dialog {
+  border: 0; padding: 0; background: transparent;
+  max-width: min(720px, calc(100% - 24px)); width: 100%;
+  margin: auto; max-height: calc(100vh - 24px);
+}
+dialog::backdrop { background: rgba(30, 42, 36, 0.5); }
+.sheet {
+  background: var(--card); border-radius: 20px; padding: 22px 22px 28px;
+  box-shadow: 0 16px 48px rgba(30, 42, 36, 0.2);
+  max-height: calc(100vh - 24px); overflow: auto;
+}
+.sheet-top { display: flex; justify-content: space-between; gap: 12px; align-items: flex-start; }
+.sheet h2 { margin: 0; font-size: 1.4rem; }
+.close {
+  appearance: none; border: 1px solid var(--line); background: #fff; border-radius: 999px;
+  width: 44px; height: 44px; font-size: 1.4rem; cursor: pointer; color: var(--ink); flex: none;
+}
+.sense { margin: 16px 0; padding: 12px 14px; background: var(--bg); border-radius: 12px; }
+.sense h3 { margin: 0 0 6px; font-size: 1rem; color: var(--green); }
+.sense p, .compare p, .sources p { margin: 0; }
+.compare { margin: 16px 0; padding: 12px 14px; background: var(--pink-soft); border-radius: 12px; }
+.compare h3 { margin: 0 0 6px; font-size: 1rem; color: var(--pink); }
+.sources { margin: 16px 0 0; }
+.sources h3 { margin: 0 0 8px; font-size: 1rem; }
+.sources ul { margin: 0; padding: 0 0 0 1.1rem; }
+.sources a { color: var(--green); }
+.online-flag { display: block; font-size: 0.85rem; color: var(--muted); margin: 0 0 8px; }
+.quiz { background: var(--card); border: 1px solid var(--line); border-radius: var(--radius); padding: 20px; box-shadow: var(--shadow); }
+.progress { color: var(--muted); font-size: 0.9rem; margin: 0 0 8px; }
+.quiz h2 { margin: 0 0 14px; font-size: 1.2rem; }
+.choices { display: grid; gap: 8px; margin: 0 0 14px; }
+.choice {
+  display: flex; gap: 10px; align-items: flex-start; background: #fff; border: 1px solid var(--line);
+  border-radius: 12px; padding: 10px 12px; cursor: pointer;
+}
+.choice:hover { border-color: #c9b8ae; }
+.choice input { margin-top: 4px; inline-size: 18px; block-size: 18px; accent-color: var(--green); flex: none; }
+.choice.correct { border-color: var(--green); background: var(--green-soft); }
+.choice.wrong { border-color: var(--pink); background: var(--pink-soft); }
+.actions { display: flex; flex-wrap: wrap; gap: 8px; }
+.btn {
+  appearance: none; border: 0; background: var(--green); color: #fff; font: inherit; font-weight: 600;
+  padding: 10px 16px; border-radius: 999px; cursor: pointer; min-height: 44px;
+}
+.btn[disabled] { opacity: 0.5; cursor: not-allowed; }
+.btn.secondary { background: #fff; color: var(--ink); border: 1px solid var(--line); }
+.feedback { margin: 12px 0 0; padding: 10px 12px; border-radius: 12px; background: var(--bg); min-height: 1.5em; }
+.score { font-size: 1.15rem; margin: 0 0 10px; }
+footer {
+  border-top: 1px solid var(--line); padding: 20px 0 28px; color: var(--muted); font-size: 0.9rem;
+}
+footer h2 { color: var(--ink); font-size: 1rem; margin: 0 0 8px; }
+.hidden { display: none !important; }
+@media (max-width: 560px) {
+  .wrap { width: min(var(--max), calc(100% - 24px)); }
+  header.app .wrap { padding: 10px 0; }
+  h1 { font-size: 1.02rem; }
+  .tools { margin-left: 0; width: 100%; }
+  .seg, .lang { flex: 1; justify-content: center; }
+  .seg button, .lang button { flex: 1; }
+  dialog { max-width: calc(100% - 16px); margin: 10px auto; max-height: calc(100vh - 20px); }
+  .sheet { max-height: calc(100vh - 20px); padding: 16px 16px 22px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  * { transition: none !important; }
+}
+</style>
+</head>
+<body>
+<a class="skip" href="#main" data-i="skip">Skip to main content</a>
+<header class="app">
+  <div class="wrap">
+    <h1 id="app-title"><span data-i="title">Animal Senses Explorer</span><span data-i="tagline">How animals sense the world — compared with typical human senses</span></h1>
+    <div class="tools">
+      <div class="lang" role="group" aria-label="Language">
+        <button type="button" id="btn-en" aria-pressed="true">EN</button>
+        <button type="button" id="btn-ja" aria-pressed="false">日本語</button>
+      </div>
+      <div class="seg" role="tablist" aria-label="Mode">
+        <button type="button" role="tab" id="tab-explore" aria-selected="true" aria-controls="panel-explore" data-i="explore">Explore</button>
+        <button type="button" role="tab" id="tab-quiz" aria-selected="false" aria-controls="panel-quiz" data-i="quiz">Quiz</button>
+      </div>
+    </div>
+  </div>
+</header>
+<main id="main" class="wrap">
+  <section id="panel-explore" role="tabpanel" aria-labelledby="tab-explore">
+    <p class="lede" data-i="lede"></p>
+    <p class="note" data-i="note"></p>
+    <div class="filters" id="filters" role="group" aria-label="Filter"></div>
+    <div class="grid" id="grid"></div>
+  </section>
+  <section id="panel-quiz" class="hidden" role="tabpanel" aria-labelledby="tab-quiz">
+    <p class="note" data-i="quizNote"></p>
+    <div class="quiz" id="quiz"></div>
+  </section>
+</main>
+<footer>
+  <div class="wrap">
+    <h2 data-i="srcFootTitle">Sources (optional, online)</h2>
+    <p data-i="srcFoot"></p>
+    <p data-i="offlineFoot"></p>
+  </div>
+</footer>
+<dialog id="detail" aria-labelledby="detail-title">
+  <div class="sheet">
+    <div class="sheet-top">
+      <div>
+        <h2 id="detail-title"></h2>
+        <p class="latin" id="detail-latin"></p>
+      </div>
+      <button type="button" class="close" id="detail-close" aria-label="Close">×</button>
+    </div>
+    <div id="detail-body"></div>
+  </div>
+</dialog>
+<script>
+const I18N = {
+  en: {
+    skip: "Skip to main content",
+    title: "Animal Senses Explorer",
+    tagline: "How animals sense the world — compared with typical human senses",
+    explore: "Explore",
+    quiz: "Quiz",
+    lede: "Sixteen animals, each with a well-studied sensory specialty. Open a card to read a plain-language description, a comparison with typical adult human senses, and optional source links.",
+    note: "This page works completely offline. Numbers that rank senses as “times better” are often shaky, so this guide stays qualitative. Typical human senses vary from person to person.",
+    quizNote: "Questions have one clearly correct answer based on the animal cards. Option order is shuffled each time so the correct choice does not sit in a fixed position. Source links are optional and open online.",
+    srcFootTitle: "Sources (optional, online)",
+    srcFoot: "Every animal card lists public pages used to check the facts (museums, universities, government science pages, and research summaries). Those links need an internet connection and are not required to browse or take the quiz.",
+    offlineFoot: "Animal Senses Explorer is a single offline file. No accounts, downloads, or network features are used by the app itself.",
+    close: "Close",
+    human: "Compared with typical human senses",
+    sources: "Sources",
+    online: "These links open on the internet. You do not need them to use this app.",
+    all: "All",
+    open: "Open details for",
+    progress: "Question {n} of {total}",
+    check: "Check answer",
+    next: "Next question",
+    again: "Play again",
+    choose: "Choose an answer first.",
+    right: "Correct.",
+    wrong: "Not quite.",
+    score: "You scored {score} out of {total}.",
+    empty: "No animals in this group.",
+    filter: "Show animals by sense",
+    seeScore: "See score"
+  },
+  ja: {
+    skip: "本文へスキップ",
+    title: "動物の感覚探検",
+    tagline: "動物の感じ方を、人の標準的な感覚と比べてみる",
+    explore: "図鑑",
+    quiz: "クイズ",
+    lede: "感覚の研究がよく進んでいる動物を16種紹介します。カードを開くと、わかりやすい説明、人の標準的な感覚との比較、確認に使った資料への任意リンクが出ます。",
+    note: "このページは通信なしで使えます。「何倍すぐれている」といった数値の順位は根拠が揺れやすいので、ここでは性質の説明にとどめています。人の感覚にも個人差があります。",
+    quizNote: "各問の正解はひとつで、図鑑の内容に沿っています。選択肢の順番は毎回入れ替えるので、正解が同じ位置に偏りません。資料リンクは任意で、開くには通信が必要です。",
+    srcFootTitle: "資料（任意・オンライン）",
+    srcFoot: "各カードに、事実の確認に使った公開ページ（博物館、大学、公的な科学ページ、研究の要約）を載せています。これらのリンクには通信が必要で、閲覧やクイズには不要です。",
+    offlineFoot: "「動物の感覚探検」はオフラインの単一ファイルです。アプリ本体はアカウントも追加ダウンロードも通信機能も使いません。",
+    close: "閉じる",
+    human: "人の標準的な感覚との比較",
+    sources: "資料",
+    online: "これらのリンクはインターネットで開きます。アプリの利用に必須ではありません。",
+    all: "すべて",
+    open: "詳細を開く：",
+    progress: "問題 {n} / {total}",
+    check: "答を確かめる",
+    next: "次の問題",
+    again: "もう一度",
+    choose: "先に選択肢を選んでください。",
+    right: "正解です。",
+    wrong: "違います。",
+    score: "{total} 問中 {score} 問正解でした。",
+    empty: "このグループには動物がありません。",
+    filter: "感覚で絞り込む",
+    seeScore: "結果を見る"
+  }
+};
+
+const ANIMALS = [
+  {
+    id: "dog", letter: "D", filter: ["smell"],
+    name: {en: "Dog", ja: "イヌ"},
+    latin: "Canis familiaris",
+    tag: {en: "Smell", ja: "嗅覚"},
+    senses: [
+      {h:{en:"A nose built for tracking", ja:"道筋をたどる鼻"},
+       p:{en:"Dogs have a large smelling surface in the nose and a well-developed smell-processing region of the brain. Many can follow a faint scent trail that a typical person would not notice. They also have a vomeronasal organ that helps them sample certain chemical signals used in animal communication.",
+          ja:"イヌは鼻の中のにおいを感じる面が広く、脳のにおいを処理する部位もよく発達しています。人が気づかないような薄いにおいの跡をたどれることがよくあります。また、ヤコブソン器官（鋤鼻器）があり、動物同士の化学的な合図を探るのにも役立ちます。"}}
+    ],
+    compare: {en:"A typical person leans on sight much more than smell. Human smell is real and useful, but it is not built to sort and follow individual odors in a mixed scent trail the way a dog’s nose is.",
+              ja:"人はふつう、においより視覚に頼ります。人の嗅覚も役に立ちますが、混ざったにおいの中から特定の道筋を追い続けるようには、イヌの鼻ほど特化していません。"},
+    sources: [
+      {label:"Canine olfaction review (PMC)", url:"https://pmc.ncbi.nlm.nih.gov/articles/PMC8388720/"}
+    ]
+  },
+  {
+    id: "cat", letter: "C", filter: ["hearing","sight","touch"],
+    name: {en: "Cat", ja: "ネコ"},
+    latin: "Felis catus",
+    tag: {en: "Hearing, dim-light sight, whiskers", ja: "聴覚・薄明視・ひげ"},
+    senses: [
+      {h:{en:"High, quiet sounds", ja:"高くて小さな音"},
+       p:{en:"Cats can hear much higher-pitched sounds than a typical adult person. That range helps them notice squeaks and rustles from small prey.",
+          ja:"ネコは、標準的な大人の人よりもずっと高い音まで聞こえます。小動物の鳴き声や草の音に気づくのに役立ちます。"}},
+      {h:{en:"A mirror behind the retina", ja:"網膜の奥の反射層"},
+       p:{en:"A reflective layer called the tapetum lucidum sends leftover light back through the light-sensing cells. This helps in dim conditions and can make the eyes shine.",
+          ja:"タペタム（tapetum lucidum）という反射層が、使い残した光を視細胞へ戻します。暗い場所での見え方を助け、目が光って見える原因にもなります。"}},
+      {h:{en:"Whiskers as feelers", ja:"触覚としてのひげ"},
+       p:{en:"Long whiskers (vibrissae) are richly supplied with nerves. They help a cat judge nearby objects, moving air, and whether a gap is wide enough — even when the light is poor.",
+          ja:"長くて神経の豊かなひげ（洞毛）は、近くの物、空気の流れ、隙間を通れるかどうかなどを判断する助けになります。光が少ないときにも使えます。"}}
+    ],
+    compare: {en:"People usually hear a narrower band of very high sounds and have no tapetum lucidum, so a dim room often looks darker to us. Ordinary facial hair is not a specialized feeler system like whiskers.",
+              ja:"人の聴こえる高い音の範囲はネコより狭く、タペタムもないため、同じ薄暗い部屋でも人の方が暗く感じやすいです。人の顔の毛は、ネコのひげのような専用の触覚器官ではありません。"},
+    sources: [
+      {label:"Texas A&M Veterinary Medicine: a cat’s five senses", url:"https://vetmed.tamu.edu/news/pet-talk/a-cats-five-senses/"},
+      {label:"Natural History Museum: cat anatomy (whiskers)", url:"https://nhm.org/stories/cat-anatomy"}
+    ]
+  },
+  {
+    id: "barn-owl", letter: "O", filter: ["hearing"],
+    name: {en: "Barn owl", ja: "メンフクロウ"},
+    latin: "Tyto alba",
+    tag: {en: "Precise hearing in the dark", ja: "暗闇での精密な聴覚"},
+    senses: [
+      {h:{en:"A face that collects sound", ja:"音を集める顔"},
+       p:{en:"A heart-shaped facial disc funnels sound toward the ears. The ear openings differ in height and shape, so a sound arrives slightly differently at each ear. The owl’s brain uses those differences to judge both direction and height. Experiments have shown barn owls can catch prey in total darkness by hearing alone.",
+          ja:"ハート形の顔（顔盤）が音を耳へ送ります。耳の穴の高さや形が左右で違うため、同じ音でも届き方がわずかに異なります。脳はその差から、音の左右だけでなく高さも判断します。実験では、全くの暗闇でも聴覚だけで獲物を捕まえられることが示されています。"}}
+    ],
+    compare: {en:"Human ears sit at roughly the same height. We can often tell left from right, but we are less precise at judging the height of a faint rustle, and we cannot typically hunt by hearing in complete darkness.",
+              ja:"人の耳はほぼ同じ高さにあります。左右の判断はできても、かすかな音の高さを精密に知ることは苦手で、真っ暗闇で音だけを頼りに狩ることはふつうできません。"},
+    sources: [
+      {label:"Barn Owl Trust: hearing adaptations", url:"https://www.barnowltrust.org.uk/barn-owl-facts/barn-owl-adaptations/"},
+      {label:"Stanford Birds: how owls hunt in the dark", url:"https://web.stanford.edu/group/stanfordbirds/text/essays/How_Owls_Hunt.html"}
+    ]
+  },
+  {
+    id: "bat", letter: "B", filter: ["hearing","echolocation"],
+    name: {en: "Echolocating bats", ja: "エコーロケーションをするコウモリ"},
+    latin: "many echolocating species",
+    tag: {en: "Biosonar", ja: "生物ソナー"},
+    senses: [
+      {h:{en:"Calls and echoes", ja:"鳴き声と響き"},
+       p:{en:"Many bats send out high-frequency calls and listen to the echoes that bounce back. Timing, loudness, and pitch changes in those echoes help them judge distance, size, and movement — including flying insects in darkness.",
+          ja:"多くのコウモリは、とても高い鳴き声を出し、返ってくる響きを聴きます。響きが返るまでの時間、大きさ、音の高さの変化から、距離や大きさ、動きがわかります。暗い中でも飛ぶ昆虫を捉えられます。"}}
+    ],
+    compare: {en:"Typical human hearing does not reach these ultrasonic calls. A few people practice click-based echolocation, but bats have a dedicated biosonar system used in nightly flight and hunting.",
+              ja:"人の標準的な聴覚では、この超音波の鳴き声は聴こえません。クリック音で反響を使う人もまれにいますが、コウモリは夜の飛行や狩りのための専用の生物ソナーを持っています。"},
+    sources: [
+      {label:"U.S. National Park Service: bat echolocation", url:"https://www.nps.gov/subjects/bats/echolocation.htm"}
+    ]
+  },
+  {
+    id: "dolphin", letter: "L", filter: ["hearing","echolocation"],
+    name: {en: "Bottlenose dolphin", ja: "ハンドウイルカ"},
+    latin: "Tursiops truncatus",
+    tag: {en: "Underwater biosonar", ja: "水中の生物ソナー"},
+    senses: [
+      {h:{en:"Clicks, melon, and jaw", ja:"クリック音、メロン、あご"},
+       p:{en:"Bottlenose dolphins make high-frequency echolocation clicks. The clicks are focused through a fatty organ in the forehead (the melon). Returning echoes are received through the lower jaw and passed to the ear. This biosonar helps them find prey and explore even when the water is murky.",
+          ja:"ハンドウイルカは高いクリック音を出してエコーロケーションをします。音は額の脂肪器官（メロン）でまとめられ、返ってきた響きは下あごを通って耳へ届きます。水が濁っていても、獲物を探したり周囲を調べたりできます。"}}
+    ],
+    compare: {en:"People do not have a melon or a jaw pathway for echoes. Underwater, both human sight and hearing are limited, and we need tools if we want a similar picture of hidden objects.",
+              ja:"人にはメロンも、響きを受けるあごの経路もありません。水中では人の視覚も聴覚も制限が大きく、同じように隠れた物を知るには道具が必要です。"},
+    sources: [
+      {label:"Smithsonian Ocean: evolution of echolocation", url:"https://ocean.si.edu/ocean-life/marine-mammals/evolution-echolocation"},
+      {label:"NOAA Fisheries: common bottlenose dolphin", url:"https://www.fisheries.noaa.gov/species/common-bottlenose-dolphin"}
+    ]
+  },
+  {
+    id: "elephant", letter: "E", filter: ["hearing","smell","touch"],
+    name: {en: "African elephant", ja: "アフリカゾウ"},
+    latin: "Loxodonta africana",
+    tag: {en: "Low rumbles, feet, and trunk", ja: "低い鳴き交わし・足・鼻"},
+    senses: [
+      {h:{en:"Infrasound and the ground", ja:"超低周波と地面"},
+       p:{en:"Elephants make low rumbles that can include infrasound — sound below the usual range of human hearing. These calls can travel a long way through the air, and their vibrations can also travel through the ground. Elephants can pick up such signals with their ears and with vibration-sensitive receptors in their feet and trunks.",
+          ja:"ゾウは、人の通常の聴こえより低い音（インフラサウンド）を含む低い鳴き声でやりとりします。この声は空気中を遠くまで届き、振動として地面も伝わることがあります。耳だけでなく、足や鼻の振動を感じる受容器でも、こうした合図を受け取れます。"}},
+      {h:{en:"A trunk for smell and touch", ja:"嗅覚と触覚の鼻"},
+       p:{en:"The trunk is also an excellent smelling and touching tool, used to inspect food, other elephants, and possible danger.",
+          ja:"鼻はすぐれた嗅覚と触覚の器官でもあり、食べ物や仲間、危険の気配を調べるのに使われます。"}}
+    ],
+    compare: {en:"Most people cannot hear the lowest parts of these rumbles without special recordings or instruments, and we do not use our feet as a listening surface in the same way.",
+              ja:"こうした鳴き声のいちばん低い部分は、特別な録音や装置なしでは、多くの人には聴こえません。人も地面の振動を感じることはありますが、ゾウの足のように聞く面としては使いません。"},
+    sources: [
+      {label:"PBS Nature: elephant communication", url:"https://www.pbs.org/wnet/nature/unforgettable-elephants-crack-the-code-of-elephant-communication/5885/"},
+      {label:"Cornell Center for Conservation Bioacoustics: elephant sound", url:"https://www.birds.cornell.edu/ccb/elephant-sound/"}
+    ]
+  },
+  {
+    id: "shark", letter: "S", filter: ["electric","smell"],
+    name: {en: "Sharks", ja: "サメ"},
+    latin: "Selachimorpha",
+    tag: {en: "Electric sense at close range", ja: "近距離の電気感覚"},
+    senses: [
+      {h:{en:"Ampullae of Lorenzini", ja:"ローレンツィニ器官"},
+       p:{en:"Pores around a shark’s snout lead to jelly-filled canals called ampullae of Lorenzini. They detect the weak electric fields given off by living animals, such as muscle activity. This sense works at close range and can help a shark find a fish hidden in sand. Sharks also have a keen sense of smell and a lateral line that detects water movement.",
+          ja:"鼻先の孔は、ローレンツィニ器官と呼ばれるゼリーで満たされた管につながっています。生きものの筋肉の動きなどが作る弱い電場を感じ取れます。この感覚は近い距離で働き、砂に隠れた魚を見つける助けにもなります。サメは嗅覚も鋭く、側線で水の動きも感じます。"}}
+    ],
+    compare: {en:"Typical humans have no electroreceptive organs, so we cannot sense a hidden animal’s weak bioelectric field.",
+              ja:"標準的な人には電気受容器がないため、隠れた生きものが発する弱い生体電場を感じることはできません。"},
+    sources: [
+      {label:"NOAA Fisheries: shark electroreceptors", url:"https://www.fisheries.noaa.gov/feature-story/12-shark-facts-may-surprise-you"},
+      {label:"University of Texas Marine Science Institute: ampullae of Lorenzini", url:"https://utmsi.utexas.edu/science-and-the-sea/radio-program/ampullae-of-lorenzini/"}
+    ]
+  },
+  {
+    id: "pit-viper", letter: "V", filter: ["heat","sight"],
+    name: {en: "Pit vipers", ja: "ピットバイパー（熱を感じるマムシの仲間）"},
+    latin: "Crotalinae",
+    tag: {en: "Heat-sensitive pits", ja: "熱を感じる器官"},
+    senses: [
+      {h:{en:"A heat picture of warm prey", ja:"温かい獲物の熱"},
+       p:{en:"Paired pits between the eye and nostril contain a thin, nerve-rich membrane that responds to infrared radiation (heat) from warm animals. A pit viper can use this heat information together with vision to aim a strike, including in poor light.",
+          ja:"目と鼻の間にある対のくぼみ（ピット）には、薄い神経の密な膜があり、温かい動物から出る赤外線（熱）に応じて働きます。ピットバイパーはこの熱の情報を視覚と合わせて、暗い場所でも狙いをつけられます。"}}
+    ],
+    compare: {en:"People can feel strong radiant heat on the skin, but we do not have pit organs that give a directional heat image of a nearby animal.",
+              ja:"人も強い放射熱を皮膚で感じられますが、近くの動物の位置がわかるような熱の画像を作るピット器官はありません。"},
+    sources: [
+      {label:"American Museum of Natural History: pit vipers detect prey via heat", url:"https://www.amnh.org/explore/news-blogs/news-posts/pit-vipers-can-detect-prey-via-heat"},
+      {label:"Molecular basis of infrared detection by snakes (PMC)", url:"https://pmc.ncbi.nlm.nih.gov/articles/PMC2855400/"}
+    ]
+  },
+  {
+    id: "honeybee", letter: "H", filter: ["sight"],
+    name: {en: "Honeybee", ja: "セイヨウミツバチ"},
+    latin: "Apis mellifera",
+    tag: {en: "Ultraviolet and polarized light", ja: "紫外線と偏光"},
+    senses: [
+      {h:{en:"Colors we do not see", ja:"人には見えない色"},
+       p:{en:"Honeybees see shorter wavelengths than typical humans, including ultraviolet. Many flowers have ultraviolet patterns, sometimes called nectar guides, that are invisible to us but help bees find the center of a bloom. Bees do not see red the way people do.",
+          ja:"ミツバチは、標準的な人よりも短い波長の光、紫外線まで見えます。多くの花には、人には見えない紫外線の模様（ネクターガイド）があり、花の中心へ案内します。一方、人と同じようには赤は見えません。"}},
+      {h:{en:"A sky compass", ja:"空のコンパス"},
+       p:{en:"Specialized parts of the compound eye detect the pattern of polarized skylight. Bees can use that pattern as a compass, even when the Sun itself is hidden, and they can share direction information in the waggle dance.",
+          ja:"複眼の特別な部分で、空の偏光の模様を検出します。太陽自体が見えなくても、その模様をコンパスとして使え、8の字ダンスで方向を仲間に伝えられます。"}}
+    ],
+    compare: {en:"Typical human vision starts at longer wavelengths than a bee’s and does not include a polarization compass. We usually cannot see nectar guides without a camera or filter that records ultraviolet.",
+              ja:"人の標準的な視覚は、ミツバチより長い波長から始まり、偏光コンパスもありません。ネクターガイドを見るには、ふつう紫外線を写すカメラやフィルタが必要です。"},
+    sources: [
+      {label:"USDA Forest Service: bee pollination and nectar guides", url:"https://www.fs.usda.gov/wildflowers/pollinators/animals/bees.shtml"},
+      {label:"NC State News: what colors bees see", url:"https://news.ncsu.edu/2024/07/wms-what-bees-see/"},
+      {label:"University of Queensland: polarised light and the waggle dance", url:"https://qbi.uq.edu.au/article/2014/01/bee-dance-points-way"}
+    ]
+  },
+  {
+    id: "eagle", letter: "A", filter: ["sight"],
+    name: {en: "Eagles and other daytime raptors", ja: "ワシなど昼間の猛禽類"},
+    latin: "e.g. Aquila chrysaetos and other diurnal raptors",
+    tag: {en: "Very sharp distance sight", ja: "遠方を鋭く見る視覚"},
+    senses: [
+      {h:{en:"Large eyes and foveae", ja:"大きな目と中心窩"},
+       p:{en:"Daytime birds of prey have large eyes, a dense packing of cone cells, and specialized pits in the retina called foveae. Many raptors have two foveae, which supports both very sharp side vision and sharp forward vision for spotting and tracking prey at a distance.",
+          ja:"昼間の猛禽類は目が大きく、錐体細胞が密で、網膜には中心窩（か）と呼ばれる特別なくぼみがあります。多くの猛禽は中心窩を二つ持ち、横方向のとても鋭い視覚と、前方の鋭い視覚の両方で、遠くの獲物を見つけ、追い続けられます。"}}
+    ],
+    compare: {en:"A typical human eye has one fovea and is not built as a long-distance hunting instrument. A far-off animal that looks like a speck to a person can still be a clear target for a hunting eagle.",
+              ja:"人の目の中心窩は一つで、遠距離の狩りのために作られてはいません。人には点のように見える遠い動物でも、狩りをするワシにははっきりした目標になることがあります。"},
+    sources: [
+      {label:"American Museum of Natural History: birds of prey super sight", url:"https://www.amnh.org/explore/news-blogs/birds-super-sight-hunting"},
+      {label:"Audubon: how golden eagles spot prey from a distance", url:"https://www.audubon.org/news/how-golden-eagles-spot-prey-incredible-distances"}
+    ]
+  },
+  {
+    id: "mantis-shrimp", letter: "M", filter: ["sight"],
+    name: {en: "Mantis shrimp", ja: "シャコ"},
+    latin: "Stomatopoda",
+    tag: {en: "Many photoreceptors and polarized light", ja: "多様な光受容器と偏光"},
+    senses: [
+      {h:{en:"A different kind of color system", ja:"人とは違う色の仕組み"},
+       p:{en:"Mantis shrimp eyes have many more types of spectral photoreceptors than the three cone types in a typical human eye. They can also detect polarized light, and some species can detect circular polarization. Researchers think this may help with signaling, hunting, and contrast underwater. Having more receptor types does not automatically mean they judge mixed colors more finely than people do.",
+          ja:"シャコの目には、人の標準的な三つの錐体よりも多くの種類の分光受容器があります。偏光も検出でき、種によっては円偏光もわかります。合図や狩り、水中でのコントラストに役立つと考えられています。受容器の種類が多いからといって、混ざった色を人より細かく見分けられるとは限りません。"}}
+    ],
+    compare: {en:"People have excellent color discrimination with three cone types, but we need filters or instruments to see polarization. A mantis shrimp’s visual system is built differently — not simply “more of the same.”",
+              ja:"人は三つの錐体で色をとてもよく見分けられますが、偏光を見るにはフィルタや装置が必要です。シャコの視覚は「人の視覚の強化版」ではなく、別の作り方をしています。"},
+    sources: [
+      {label:"University of Queensland: new type of vision in shrimp", url:"https://news.uq.edu.au/2008-03-20-new-type-vision-found-shrimp"},
+      {label:"University of Queensland: mantis shrimp vision research", url:"https://news.uq.edu.au/2009-10-26-uq-research-finds-mantis-shrimps-have-an-eye-for-a-better-dvd"}
+    ]
+  },
+  {
+    id: "star-nosed-mole", letter: "N", filter: ["touch"],
+    name: {en: "Star-nosed mole", ja: "ホシバナモグラ"},
+    latin: "Condylura cristata",
+    tag: {en: "An ultra-sensitive touch star", ja: "非常に鋭い触覚の星"},
+    senses: [
+      {h:{en:"Eimer’s organs on a star", ja:"星についたアイマー器官"},
+       p:{en:"Twenty-two fleshy rays form a star around the nostrils. They are covered with tens of thousands of Eimer’s organs — tiny touch domes. The mole taps surfaces many times a second and uses part of the star as a tactile “fovea” to inspect food. It can identify and eat small prey in a fraction of a second. Sight is of little use in its dark tunnels.",
+          ja:"鼻のまわりに22本のやわらかい突起が星形に並び、何万ものアイマー器官（小さな触覚のドーム）で覆われています。モグラは1秒に何度も表面を触れ、星の一部を触覚の「中心窩」のように使って食べ物を調べます。小さな獲物を一瞬で見分けて食べることができます。暗いトンネルでは視覚はほとんど役に立ちません。"}}
+    ],
+    compare: {en:"A human hand is sensitive, but it does not pack a comparable array of touch organs into such a small surface, and we cannot scan and identify food by touch at this speed.",
+              ja:"人の手も敏感ですが、これほど小さな面に同程度の触覚器官が集まってはおらず、この速さで触るだけで食べ物を見分けては食べられません。"},
+    sources: [
+      {label:"Smithsonian Magazine: the star-nosed mole’s snout", url:"https://www.smithsonianmag.com/science-nature/how-the-star-nosed-mole-sees-with-its-ultra-sensitive-snout-8926067/"},
+      {label:"The sense of touch in the star-nosed mole (PMC)", url:"https://pmc.ncbi.nlm.nih.gov/articles/PMC3172592/"}
+    ]
+  },
+  {
+    id: "platypus", letter: "P", filter: ["electric","touch"],
+    name: {en: "Platypus", ja: "カモノハシ"},
+    latin: "Ornithorhynchus anatinus",
+    tag: {en: "Electric and touch sensors in the bill", ja: "くちばしの電気と触覚"},
+    senses: [
+      {h:{en:"Hunting with the bill shut off from other senses", ja:"他の感覚を閉じてくちばしで狩る"},
+       p:{en:"When a platypus dives, it closes its eyes, ears, and nostrils. The bill is packed with touch sensors (push rods) and electroreceptors that detect tiny electric fields from the muscle movements of prey in the water and mud.",
+          ja:"カモノハシは潜るとき、目も耳も鼻も閉じます。くちばしには触覚のセンサー（プッシュロッド）と電気受容器が集まっていて、水や泥の中の獲物の筋動きが作るごく小さな電場を捉えられます。"}}
+    ],
+    compare: {en:"People have no electroreceptors. If we closed our eyes, ears, and nose underwater, we would have only crude touch and no sense of a prey animal’s faint electric field.",
+              ja:"人には電気受容器がありません。水中で目と耳と鼻を閉じると、粗い触覚だけが残り、獲物の弱い電場は感じられません。"},
+    sources: [
+      {label:"American Museum of Natural History: platypus electroreception", url:"https://www.amnh.org/explore/news-blogs/platypus-electroreception-hunting"},
+      {label:"Australian Museum: platypus", url:"https://australian.museum/learn/animals/mammals/platypus/"}
+    ]
+  },
+  {
+    id: "pigeon", letter: "G", filter: ["magnetic","sight"],
+    name: {en: "Homing pigeon", ja: "伝書バト"},
+    latin: "Columba livia",
+    tag: {en: "Magnetic sense as one cue", ja: "手がかりのひとつとしての磁気感覚"},
+    senses: [
+      {h:{en:"Earth’s magnetic field", ja:"地球の磁場"},
+       p:{en:"Homing pigeons can detect Earth’s magnetic field and appear to use it as one cue when orienting and finding their way, along with other cues such as the Sun and familiar landmarks. Scientists are still studying exactly how this magnetic sense works.",
+          ja:"伝書バトは地球の磁場を感じ取れ、太陽や見覚えのある景色などと並ぶ手がかりのひとつとして、方向を知るのに使っていると考えられています。この磁気感覚が正確にどのように働いているかは、いまも研究が続いています。"}}
+    ],
+    compare: {en:"Typical people cannot consciously feel Earth’s magnetic field and need a compass or GPS to obtain the same kind of heading information.",
+              ja:"標準的な人は、地球の磁場を意識して感じることはできず、同じような方位の情報を得るにはコンパスやGPSが必要です。"},
+    sources: [
+      {label:"Stanford Birds: navigation and orientation", url:"https://web.stanford.edu/group/stanfordbirds/text/essays/Navigation.html"},
+      {label:"Evidence that pigeons orient to geomagnetic intensity (PMC)", url:"https://pmc.ncbi.nlm.nih.gov/articles/PMC2189574/"}
+    ]
+  },
+  {
+    id: "silk-moth", letter: "K", filter: ["smell"],
+    name: {en: "Silk moth (male)", ja: "カイコガ（オス）"},
+    latin: "Bombyx mori",
+    tag: {en: "A pheromone-tuned antenna", ja: "フェロモンに合わせた触角"},
+    senses: [
+      {h:{en:"Bombykol on the wind", ja:"風に乗るボンビコール"},
+       p:{en:"Males have large, feathery antennae packed with receptors tuned to bombykol, the female’s sex pheromone. A male can pick up this scent in the air and walk or fly upwind toward a female.",
+          ja:"オスは大きく羽毛のような触角を持ち、メスの性フェロモンであるボンビコールに合わせた受容器が並んでいます。空気中のこのにおいを捉えると、風上へ歩いたり飛んだりしてメスに近づきます。"}}
+    ],
+    compare: {en:"Human noses are not tuned to a single moth pheromone in this way, and we would not notice such a dilute chemical trail without laboratory equipment.",
+              ja:"人の鼻は、ひとつのガのフェロモンにこれほど特化しておらず、ごく薄い化学物質の道筋には、実験装置なしでは気づきません。"},
+    sources: [
+      {label:"PNAS: sex pheromone receptor in Bombyx mori", url:"https://www.pnas.org/doi/10.1073/pnas.0407596101"},
+      {label:"Mechanisms of silk moth pheromone reception (PMC)", url:"https://pmc.ncbi.nlm.nih.gov/articles/PMC3978319/"}
+    ]
+  },
+  {
+    id: "catfish", letter: "F", filter: ["taste","touch"],
+    name: {en: "Channel catfish", ja: "チャネルキャットフィッシュ"},
+    latin: "Ictalurus punctatus",
+    tag: {en: "Taste buds on the body", ja: "体にある味蕾"},
+    senses: [
+      {h:{en:"A body that can taste", ja:"体で味わう"},
+       p:{en:"Taste buds are found not only in the mouth but also across the skin, with a high concentration on the barbels (“whiskers”). This lets a catfish sample dissolved chemicals in murky water and find food by taste.",
+          ja:"味蕾は口の中だけでなく皮膚にもあり、とくに口のまわりのひげ（barbels）に多く集まっています。濁った水の中でも溶けた化学物質を調べ、味を手がかりに食べ物を見つけられます。"}}
+    ],
+    compare: {en:"Typical humans taste mainly with the tongue and mouth, not with the skin of the body or with whisker-like barbels.",
+              ja:"標準的な人は、主に舌と口の中で味を感じます。体の皮膚や、ナマズのひげのような器官では味わいません。"},
+    sources: [
+      {label:"Smithsonian’s National Zoo: channel catfish", url:"https://www.nationalzoo.si.edu/animals/channel-catfish"},
+      {label:"North Dakota Game and Fish: catfish taste receptors", url:"https://gf.nd.gov/wildlife-notes/catfish-taste-receptors"}
+    ]
+  }
+];
+
+const FILTERS = [
+  {id:"all", en:"All", ja:"すべて"},
+  {id:"smell", en:"Smell", ja:"嗅覚"},
+  {id:"sight", en:"Sight", ja:"視覚"},
+  {id:"hearing", en:"Hearing", ja:"聴覚"},
+  {id:"touch", en:"Touch", ja:"触覚"},
+  {id:"taste", en:"Taste", ja:"味覚"},
+  {id:"echolocation", en:"Echolocation", ja:"反響定位"},
+  {id:"electric", en:"Electric", ja:"電気"},
+  {id:"heat", en:"Heat", ja:"熱"},
+  {id:"magnetic", en:"Magnetic", ja:"磁気"}
+];
+
+const QUESTIONS = [
+  {
+    id:"q-mole",
+    q:{en:"Which animal uses a star-shaped snout covered in Eimer’s organs to feel its way and find food in the dark?",
+       ja:"アイマー器官に覆われた星形の鼻先で、暗い場所を触って食べ物を探すのはどの動物ですか？"},
+    explain:{en:"The star-nosed mole’s 22 rays are covered with tens of thousands of tiny touch organs.",
+             ja:"ホシバナモグラの22本の突起は、何万もの小さな触覚器官で覆われています。"},
+    options:[
+      {id:"star-nosed-mole", t:{en:"Star-nosed mole", ja:"ホシバナモグラ"}, ok:true},
+      {id:"platypus", t:{en:"Platypus", ja:"カモノハシ"}, ok:false},
+      {id:"cat", t:{en:"Cat", ja:"ネコ"}, ok:false},
+      {id:"honeybee", t:{en:"Honeybee", ja:"セイヨウミツバチ"}, ok:false}
+    ]
+  },
+  {
+    id:"q-platypus",
+    q:{en:"Which mammal hunts underwater with its eyes, ears, and nostrils closed, using electric and touch sensors in its bill?",
+       ja:"潜るとき目・耳・鼻を閉じ、くちばしの電気と触覚のセンサーで狩りをする哺乳類はどれですか？"},
+    explain:{en:"A diving platypus relies on push-rod touch sensors and electroreceptors in the bill.",
+             ja:"潜ったカモノハシは、くちばしのプッシュロッド（触覚）と電気受容器に頼ります。"},
+    options:[
+      {id:"platypus", t:{en:"Platypus", ja:"カモノハシ"}, ok:true},
+      {id:"dolphin", t:{en:"Bottlenose dolphin", ja:"ハンドウイルカ"}, ok:false},
+      {id:"shark", t:{en:"Shark", ja:"サメ"}, ok:false},
+      {id:"star-nosed-mole", t:{en:"Star-nosed mole", ja:"ホシバナモグラ"}, ok:false}
+    ]
+  },
+  {
+    id:"q-owl",
+    q:{en:"Barn owls can catch prey in total darkness mainly because:",
+       ja:"メンフクロウが真っ暗闇で獲物を捕まえられる主な理由は何ですか？"},
+    explain:{en:"The facial disc funnels sound, and uneven ear openings help the brain judge direction and height.",
+             ja:"顔盤が音を集め、左右で違う耳の位置が、方向と高さを脳が判断する助けになります。"},
+    options:[
+      {id:"a", t:{en:"Their ear openings are uneven, and the facial disc funnels sound", ja:"耳の位置が左右で違い、顔盤が音を集めるから"}, ok:true},
+      {id:"b", t:{en:"They have heat-sensing pits on the face", ja:"顔に熱を感じるピットがあるから"}, ok:false},
+      {id:"c", t:{en:"They use echolocation clicks", ja:"クリック音でエコーロケーションをするから"}, ok:false},
+      {id:"d", t:{en:"They see ultraviolet nectar guides", ja:"紫外線のネクターガイドが見えるから"}, ok:false}
+    ]
+  },
+  {
+    id:"q-shark",
+    q:{en:"Sharks detect the tiny electric fields of nearby animals with:",
+       ja:"サメが近くの生きものの弱い電場を感じるのに使うのは何ですか？"},
+    explain:{en:"Ampullae of Lorenzini are jelly-filled canals that open through pores around the snout.",
+             ja:"ローレンツィニ器官は、鼻先の孔につながるゼリーで満たされた管です。"},
+    options:[
+      {id:"a", t:{en:"Ampullae of Lorenzini", ja:"ローレンツィニ器官"}, ok:true},
+      {id:"b", t:{en:"Eimer’s organs", ja:"アイマー器官"}, ok:false},
+      {id:"c", t:{en:"Loreal pits", ja:"ピット器官（窩熱器官）"}, ok:false},
+      {id:"d", t:{en:"A vomeronasal organ", ja:"ヤコブソン器官（鋤鼻器）"}, ok:false}
+    ]
+  },
+  {
+    id:"q-bee",
+    q:{en:"Honeybees can see a kind of light that typical human vision cannot:",
+       ja:"セイヨウミツバチが見えて、人の標準的な視覚では見えない光はどれですか？"},
+    explain:{en:"Bees see ultraviolet light and can also use polarized skylight as a compass.",
+             ja:"ミツバチは紫外線が見え、空の偏光をコンパスにも使えます。"},
+    options:[
+      {id:"a", t:{en:"Ultraviolet light", ja:"紫外線"}, ok:true},
+      {id:"b", t:{en:"Infrared heat from flowers", ja:"花から出る赤外線の熱"}, ok:false},
+      {id:"c", t:{en:"X-rays", ja:"エックス線"}, ok:false},
+      {id:"d", t:{en:"Radio waves", ja:"電波"}, ok:false}
+    ]
+  },
+  {
+    id:"q-viper",
+    q:{en:"Pit vipers locate warm prey using:",
+       ja:"ピットバイパーが温かい獲物の位置を知るのに使うのは何ですか？"},
+    explain:{en:"Paired facial pits respond to infrared radiation from warm animals.",
+             ja:"顔の対のピットが、温かい動物から出る赤外線に応じて働きます。"},
+    options:[
+      {id:"a", t:{en:"Heat-sensitive pits on the face", ja:"顔の熱を感じるピット"}, ok:true},
+      {id:"b", t:{en:"Echolocation clicks", ja:"エコーロケーションのクリック音"}, ok:false},
+      {id:"c", t:{en:"Earth’s magnetic field", ja:"地球の磁場"}, ok:false},
+      {id:"d", t:{en:"A feathered facial disc", ja:"羽でできた顔盤"}, ok:false}
+    ]
+  },
+  {
+    id:"q-bat",
+    q:{en:"Echolocating bats find insects in the dark by:",
+       ja:"エコーロケーションをするコウモリが、暗い中で昆虫を見つける方法はどれですか？"},
+    explain:{en:"They emit high-frequency calls and listen to the returning echoes.",
+             ja:"高い鳴き声を出し、返ってくる響きを聴きます。"},
+    options:[
+      {id:"a", t:{en:"Sending out high-frequency sounds and listening to the echoes", ja:"高い音を出して、その響きを聴く"}, ok:true},
+      {id:"b", t:{en:"Sensing Earth’s magnetic field alone", ja:"地球の磁場だけを感じる"}, ok:false},
+      {id:"c", t:{en:"Tasting the air with their feet", ja:"足で空気の味を見る"}, ok:false},
+      {id:"d", t:{en:"Detecting infrared radiation with facial pits", ja:"顔のピットで赤外線を感じる"}, ok:false}
+    ]
+  },
+  {
+    id:"q-elephant",
+    q:{en:"African elephant rumbles that travel far through air and ground are often:",
+       ja:"空気や地面を遠くまで伝わるアフリカゾウの低い鳴き声は、多くの場合どんな音ですか？"},
+    explain:{en:"These calls can include infrasound, which is below the usual range of human hearing.",
+             ja:"人の通常の聴こえより低いインフラサウンドを含むことがあります。"},
+    options:[
+      {id:"a", t:{en:"Too low for people to hear (infrasound)", ja:"人には低すぎて聴こえない音（インフラサウンド）"}, ok:true},
+      {id:"b", t:{en:"Too high for people to hear (ultrasound)", ja:"人には高すぎて聴こえない音（超音波）"}, ok:false},
+      {id:"c", t:{en:"Visible only as light", ja:"光としてしか見えない"}, ok:false},
+      {id:"d", t:{en:"Electric fields, not sound", ja:"音ではなく電場"}, ok:false}
+    ]
+  },
+  {
+    id:"q-mantis",
+    q:{en:"Mantis shrimp eyes are unusual because they can detect:",
+       ja:"シャコの目が珍しい理由として正しいのはどれですか？"},
+    explain:{en:"They have many photoreceptor types and can detect polarized light, including circular polarization in some species. That is not the same as “better color ranking” than people.",
+             ja:"光受容器の種類が多く、偏光も検出できます。種によっては円偏光もわかります。人より色の順位が上、という意味ではありません。"},
+    options:[
+      {id:"a", t:{en:"Polarized light, including forms people cannot see", ja:"人には見えない種類も含む偏光"}, ok:true},
+      {id:"b", t:{en:"Earth’s magnetic field with their feet", ja:"足で地球の磁場を感じる"}, ok:false},
+      {id:"c", t:{en:"Infrasound through a facial disc", ja:"顔盤で超低周波を聴く"}, ok:false},
+      {id:"d", t:{en:"Heat pits on the carapace", ja:"甲羅の熱ピット"}, ok:false}
+    ]
+  },
+  {
+    id:"q-pigeon",
+    q:{en:"Which bird can use Earth’s magnetic field as one cue when finding its way home?",
+       ja:"家路につくとき、手がかりのひとつとして地球の磁場を使える鳥はどれですか？"},
+    explain:{en:"Homing pigeons appear to use the magnetic field along with cues such as the Sun and landmarks. The exact mechanism is still being studied.",
+             ja:"伝書バトは、太陽や景色などと並んで磁場も使っていると考えられています。詳しい仕組みは研究途上です。"},
+    options:[
+      {id:"pigeon", t:{en:"Homing pigeon", ja:"伝書バト"}, ok:true},
+      {id:"barn-owl", t:{en:"Barn owl", ja:"メンフクロウ"}, ok:false},
+      {id:"eagle", t:{en:"Eagle", ja:"ワシ"}, ok:false},
+      {id:"bat", t:{en:"Echolocating bat", ja:"コウモリ"}, ok:false}
+    ]
+  },
+  {
+    id:"q-catfish",
+    q:{en:"Channel catfish have taste buds:",
+       ja:"チャネルキャットフィッシュの味蕾について正しいのはどれですか？"},
+    explain:{en:"Taste buds occur in the mouth and also on the skin, especially the barbels.",
+             ja:"味蕾は口の中だけでなく皮膚にもあり、とくにひげに多くあります。"},
+    options:[
+      {id:"a", t:{en:"Not only in the mouth, but also on the body and barbels", ja:"口の中だけでなく、体やひげにもある"}, ok:true},
+      {id:"b", t:{en:"Only on the tongue, like a typical person", ja:"人と同じく、舌にだけある"}, ok:false},
+      {id:"c", t:{en:"Only inside the ear", ja:"耳の中にだけある"}, ok:false},
+      {id:"d", t:{en:"Only on the tail fin", ja:"尾びれにだけある"}, ok:false}
+    ]
+  },
+  {
+    id:"q-dolphin",
+    q:{en:"Bottlenose dolphins locate prey in murky water mainly with:",
+       ja:"ハンドウイルカが濁った水の中で獲物を探す主な方法はどれですか？"},
+    explain:{en:"High-frequency clicks are focused by the melon; echoes return through the lower jaw.",
+             ja:"高いクリック音をメロンでまとめ、響きは下あごを通って戻ります。"},
+    options:[
+      {id:"a", t:{en:"High-frequency echolocation clicks", ja:"高いエコーロケーションのクリック音"}, ok:true},
+      {id:"b", t:{en:"Heat pits on the snout", ja:"口先の熱ピット"}, ok:false},
+      {id:"c", t:{en:"Ultraviolet nectar guides", ja:"紫外線のネクターガイド"}, ok:false},
+      {id:"d", t:{en:"Eimer’s organs", ja:"アイマー器官"}, ok:false}
+    ]
+  }
+];
+
+let lang = "en";
+let filter = "all";
+let quiz = null;
+let openId = null;
+
+function t(key) { return I18N[lang][key]; }
+function tr(obj) { return obj[lang]; }
+
+function applyI18n() {
+  document.documentElement.lang = lang === "ja" ? "ja" : "en";
+  document.querySelectorAll("[data-i]").forEach(el => {
+    const key = el.getAttribute("data-i");
+    if (I18N[lang][key] != null) el.textContent = I18N[lang][key];
+  });
+  document.getElementById("btn-en").setAttribute("aria-pressed", String(lang === "en"));
+  document.getElementById("btn-ja").setAttribute("aria-pressed", String(lang === "ja"));
+  document.getElementById("detail-close").setAttribute("aria-label", t("close"));
+  renderFilters();
+  renderGrid();
+  if (quiz) renderQuiz();
+  const dlg = document.getElementById("detail");
+  if (openId && dlg.open) openDetail(openId);
+}
+
+function renderFilters() {
+  const box = document.getElementById("filters");
+  box.setAttribute("aria-label", t("filter"));
+  box.innerHTML = FILTERS.map(f =>
+    `<button type="button" data-filter="${f.id}" aria-pressed="${f.id===filter}">${lang==="ja"?f.ja:f.en}</button>`
+  ).join("");
+  box.querySelectorAll("button").forEach(btn => {
+    btn.addEventListener("click", () => { filter = btn.dataset.filter; renderFilters(); renderGrid(); });
+  });
+}
+
+function renderGrid() {
+  const grid = document.getElementById("grid");
+  const list = ANIMALS.filter(a => filter === "all" || a.filter.includes(filter));
+  if (!list.length) {
+    grid.innerHTML = `<p>${t("empty")}</p>`;
+    return;
+  }
+  grid.innerHTML = list.map(a => `
+    <button type="button" class="card" data-id="${a.id}" aria-label="${t("open")} ${tr(a.name)}">
+      <span class="badge" aria-hidden="true">${a.letter}</span>
+      <h2>${tr(a.name)}</h2>
+      <p class="latin">${a.latin}</p>
+      <span class="tag">${tr(a.tag)}</span>
+    </button>`).join("");
+  grid.querySelectorAll(".card").forEach(btn => btn.addEventListener("click", () => openDetail(btn.dataset.id)));
+}
+
+function openDetail(id) {
+  const a = ANIMALS.find(x => x.id === id);
+  if (!a) return;
+  openId = id;
+  document.getElementById("detail-title").textContent = tr(a.name);
+  document.getElementById("detail-latin").textContent = a.latin;
+  const senses = a.senses.map(s => `<article class="sense"><h3>${tr(s.h)}</h3><p>${tr(s.p)}</p></article>`).join("");
+  const links = a.sources.map(s => `<li><a href="${s.url}" target="_blank" rel="noopener noreferrer">${s.label}</a></li>`).join("");
+  document.getElementById("detail-body").innerHTML = `
+    ${senses}
+    <section class="compare"><h3>${t("human")}</h3><p>${tr(a.compare)}</p></section>
+    <section class="sources">
+      <h3>${t("sources")}</h3>
+      <span class="online-flag">${t("online")}</span>
+      <ul>${links}</ul>
+    </section>`;
+  const dlg = document.getElementById("detail");
+  if (!dlg.open) dlg.showModal();
+  document.getElementById("detail-close").focus();
+}
+
+function shuffle(arr) {
+  const a = arr.slice();
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+function startQuiz() {
+  quiz = {
+    items: shuffle(QUESTIONS).map(q => ({...q, options: shuffle(q.options), picked: null, checked: false})),
+    i: 0,
+    score: 0,
+    done: false
+  };
+  renderQuiz();
+}
+
+function renderQuiz() {
+  const box = document.getElementById("quiz");
+  if (!quiz) { startQuiz(); return; }
+  if (quiz.done) {
+    box.innerHTML = `
+      <p class="score">${t("score").replace("{score}", quiz.score).replace("{total}", quiz.items.length)}</p>
+      <button type="button" class="btn" id="again">${t("again")}</button>`;
+    document.getElementById("again").addEventListener("click", startQuiz);
+    return;
+  }
+  const item = quiz.items[quiz.i];
+  const prog = t("progress").replace("{n}", quiz.i+1).replace("{total}", quiz.items.length);
+  const choices = item.options.map((o, idx) => {
+    const cls = item.checked ? (o.ok ? "choice correct" : (item.picked===o.id ? "choice wrong" : "choice")) : "choice";
+    return `<label class="${cls}"><input type="radio" name="ans" value="${o.id}" ${item.picked===o.id?"checked":""} ${item.checked?"disabled":""}><span>${tr(o.t)}</span></label>`;
+  }).join("");
+  let fb = "";
+  if (item.checked) {
+    const ok = item.options.find(o => o.id === item.picked)?.ok;
+    fb = `<p class="feedback" role="status">${ok ? t("right") : t("wrong")} ${tr(item.explain)}</p>`;
+  } else {
+    fb = `<p class="feedback" role="status" id="quiz-fb"></p>`;
+  }
+  box.innerHTML = `
+    <p class="progress">${prog}</p>
+    <h2 id="q-title">${tr(item.q)}</h2>
+    <div class="choices" role="radiogroup" aria-labelledby="q-title">${choices}</div>
+    <div class="actions">
+      ${item.checked
+        ? `<button type="button" class="btn" id="next">${quiz.i===quiz.items.length-1 ? t("seeScore") : t("next")}</button>`
+        : `<button type="button" class="btn" id="check">${t("check")}</button>`}
+    </div>
+    ${fb}`;
+  if (!item.checked) {
+    box.querySelectorAll('input[name="ans"]').forEach(inp => {
+      inp.addEventListener("change", () => { item.picked = inp.value; });
+    });
+    document.getElementById("check").addEventListener("click", () => {
+      if (!item.picked) {
+        document.getElementById("quiz-fb").textContent = t("choose");
+        return;
+      }
+      item.checked = true;
+      if (item.options.find(o => o.id === item.picked)?.ok) quiz.score += 1;
+      renderQuiz();
+    });
+  } else {
+    const next = document.getElementById("next");
+    next.addEventListener("click", () => {
+      if (quiz.i === quiz.items.length - 1) quiz.done = true;
+      else quiz.i += 1;
+      renderQuiz();
+    });
+  }
+}
+
+function showPanel(name) {
+  const explore = name === "explore";
+  document.getElementById("panel-explore").classList.toggle("hidden", !explore);
+  document.getElementById("panel-quiz").classList.toggle("hidden", explore);
+  document.getElementById("tab-explore").setAttribute("aria-selected", String(explore));
+  document.getElementById("tab-quiz").setAttribute("aria-selected", String(!explore));
+  window.scrollTo(0, 0);
+  if (!explore && !quiz) startQuiz();
+}
+
+document.getElementById("btn-en").addEventListener("click", () => { lang = "en"; applyI18n(); });
+document.getElementById("btn-ja").addEventListener("click", () => { lang = "ja"; applyI18n(); });
+document.getElementById("tab-explore").addEventListener("click", () => showPanel("explore"));
+document.getElementById("tab-quiz").addEventListener("click", () => showPanel("quiz"));
+function closeDetail() {
+  openId = null;
+  document.getElementById("detail").close();
+}
+document.getElementById("detail-close").addEventListener("click", closeDetail);
+document.getElementById("detail").addEventListener("click", (e) => {
+  if (e.target.id === "detail") closeDetail();
+});
+document.getElementById("detail").addEventListener("close", () => { openId = null; });
+document.addEventListener("keydown", (e) => {
+  if (e.key === "Escape" && document.getElementById("detail").open) closeDetail();
+});
+
+applyI18n();
+</script>
+</body>
+</html>
